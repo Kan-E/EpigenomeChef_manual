@@ -1,0 +1,1976 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>EpigenomeChef manual</title>
+
+<script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">EpigenomeChef manual</h1>
+<h4 class="date">23/09/13 11:35</h4>
+
+</div>
+
+
+<div id="outline" class="section level1">
+<h1>Outline</h1>
+<p><img src="manual_figure/graphical_abstract2.png" id="id"
+class="class" style="width:100.0%" /> <br><br></p>
+<p>EpigenomeChef is a platform of systematic epigenome data analysis
+which can automatically detect, integrate, and visualize the epigenetic
+information and its interaction with transcriptome without
+bioinformatics skills.<br> Data downloaded from ChIP-atlas, a database
+of ChIP-seq, ATAC-seq, and Bisulfite-seq, can be used as input.<br> In
+addition, it easily performed the integrative analysis with
+transcriptome data by uploading the results file of differentially
+expressed gene (DEG) analysis obtained from RNA-seq data.<br></p>
+<div id="install" class="section level2">
+<h2>Install</h2>
+<p>EpigenomeChef can be used by installing the Docker image.<br> 0. (If
+you do not have a Docker environment) Install Docker <br> 1. Run the
+following command (Once you run it, you won’t need it again) <br></p>
+<p>HOMER mouse (mm10) (required storage size: 17Gb)</p>
+<pre><code>docker pull omicschef/epigenomechef:mm10v1.0.5-beta
+
+## Please replace mm10 with the appropriate dataset reference.
+## e.g. docker pull omicschef/epigenomechef:hg19v1.0.5-beta</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Run the following command for the launch EpigenomeChef on the
+browser</li>
+</ol>
+<p>HOMER mouse (mm10)</p>
+<pre><code>docker run --rm -p 3838:3838 omicschef/epigenomechef:mm10v1.0.5-beta
+
+## Please replace mm10 with the appropriate dataset reference.
+## e.g. docker run --rm -p 3838:3838 omicschef/epigenomechef:hg19v1.0.5-beta</code></pre>
+<p>Access <a href="http://localhost:3838">http://localhost:3838</a>.</p>
+<p>If you need help, please create an issue on <a
+href="https://github.com/Kan-E/EpigenomeChef/issues">Github</a> or <a
+href="mailto:kaneto@kumamoto-u.ac.jp" class="email">contact us</a>.
+<br></p>
+<p>EpigenomeChef consists of the following sections:<br></p>
+<ul>
+<li><p><strong>Pair-wise</strong> (differential accessible/binding
+region for pair-wise comparison)</p></li>
+<li><p><strong>Venn diagram</strong> (Visualization of the intersections
+of genomic loci)</p></li>
+<li><p><strong>Clustering</strong> (Dimension reduction for clustering,
+k-means clustering analysis)</p></li>
+<li><p><strong>Enrichment viewer</strong> (Functional and motif analysis
+of interest of genomic loci)</p></li>
+<li><p><strong>More</strong>（Other useful functions, Reference,
+etc）</p></li>
+</ul>
+<p>To establish the versatility of EpigenomeChef, we divided its core
+functions into four sections, which enabled us to handle various types
+of input files. <br> The user-interface consists of
+<strong>Menu</strong>, <strong>Setting panel</strong>, <strong>Tab
+panel</strong>.<br> Each section can be moved by clicking on a menu
+button.<br> The input files can be uploaded to the setting panel.<br>
+Epigenome analysis was started automatically by clicking the tab panel
+in the output panel.<br> Please explore the app’s features using example
+data by clicking the <strong>example button</strong> on the setting
+panel.<br><br> <img src="manual_figure/panel.png" id="id" class="class"
+style="width:90.0%" alt="panel" /> <br></p>
+<hr />
+</div>
+</div>
+<div id="common-rules-and-important-notice-for-input-file"
+class="section level1">
+<h1>Common rules and important notice for input file</h1>
+<div id="file-extension" class="section level4">
+<h4>File extension</h4>
+<p>Coverage data:</p>
+<ul>
+<li>BigWig file (.BigWig or .bw)</li>
+<li>Bam file (.bam) (option for Pair-wise DAR)</li>
+</ul>
+<p>Peak call data:</p>
+<ul>
+<li>narrowPeak file (.narrowPeak)</li>
+<li>bed file (.bed) <br><br></li>
+</ul>
+</div>
+<div id="bigwig-format" class="section level4">
+<h4>BigWig format</h4>
+<p>BigWig file must be normalized (e.g. Reads per million
+(RPM/CPM)).</p>
+</div>
+<div id="file-names-of-bigwig-or-bam-files" class="section level4">
+<h4>File names of BigWig (or Bam) files</h4>
+<p>File names are used as sample names in output figures.<br> Do not use
+“/”, “:”, and ” “(space) in file names. <br> Simple file names are
+recommended, as long names adversely affect creating figures. <br> The
+replication number is represented by the underline “<em>”.<br> Do not
+use the underline ”</em>” for anything else.</p>
+</div>
+<div id="file-names-of-peak-call-and-bed-files" class="section level4">
+<h4>File names of peak call and bed files</h4>
+<ul>
+<li><p><strong>Pair-wise DAR、Clustering</strong><br> Any file names do
+not affect the analysis.<br></p></li>
+<li><p><strong>Venn diagram、Enrichment viewer、Bedtools</strong><br>
+File names are used as sample names in output figures.<br> Simple file
+names are recommended, as long names adversely affect creating figures.
+<br></p></li>
+</ul>
+</div>
+<div id="notes-on-uploading-files" class="section level4">
+<h4>Notes on uploading files</h4>
+<p>Files in different folders cannot be uploaded at the same time. <br>
+Put the files you want to upload at the same time in the same folder.
+<br></p>
+<hr />
+</div>
+</div>
+<div id="common-rules-and-important-notice-for-the-output-file"
+class="section level1">
+<h1>Common rules and important notice for the output file</h1>
+<div id="saving-data" class="section level4">
+<h4>saving data</h4>
+<p>The table data and graphs were saved by pressing the download button.
+The table data are saved as a tab-separated txt file (. txt), the data
+of genomic loci are saved as a bed file (.bed), and the graphs are saved
+as a PDF file that can be edited by Adobe Illustrator.<br> Multiple
+files are saved in zip format only in the <strong>HOMER report</strong>
+in the tab panel of HOMER.<br><br></p>
+</div>
+<div id="adjusting-the-plot-size" class="section level4">
+<h4>Adjusting the plot size</h4>
+<p>You can change the figure size by adjusting the “Output plot size
+setting for pdf” in the Setting panel.<br> The parameters can be
+adjusted when adjacent characters overlap in the graph or when the
+margins of the graph are too large.<br> If the value of the parameter is
+zero, it is saved at the default size.<br> The default size depends on
+the type of graph. For details, please refer to the pop-up in the
+application.<br><br></p>
+<hr />
+</div>
+</div>
+<div id="pair-wise-dar" class="section level1">
+<h1>Pair-wise DAR</h1>
+<p>“Pair-wise DAR” detects and visualizes differentially
+accessible/binding regions (DAR). This function executes a series of
+pairwise DAR analyses such as “DAR detection”, “clustering analysis”,
+“Function and motif enrichment analysis (GREAT and HOMER,
+respectively)”, and “Integrative analysis with RNA-seq”.</p>
+<div id="setting" class="section level2">
+<h2>Setting</h2>
+<p><img src="manual_figure/pair-wise%20set.png" id="id" class="class"
+style="width:100.0%" /><br></p>
+<hr />
+<div id="input-format" class="section level3">
+<h3>Input format</h3>
+<p>The most important parameters are the following.<br></p>
+<ul>
+<li><strong>input</strong>: “BigWig file” or “Bam file”</li>
+<li><strong>Genomic region</strong>: “Genome-wide” or “Promoter”</li>
+<li>**Count file + BigWig files*</li>
+</ul>
+<div id="input" class="section level4">
+<h4>Input</h4>
+<ul>
+<li><p>In the case of <strong>BigWig file</strong><br> BigWig file must
+be normalized (e.g. Reads per million (RPM/CPM)).<br> The statistical
+analysis for pair-wise comparison depends on <a
+href="https://bioconductor.org/packages/release/bioc/html/limma.html">limma</a>.
+<br></p></li>
+<li><p>In the case of <strong>Bam file</strong><br> Select “single-end”
+or “paired-end”.<br> The statistical analysis for pair-wise comparison
+depends on <a
+href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-014-0550-8">DESeq2</a>.<br>
+In the case that the number of mapped reads in each sample is almost the
+same, DESeq2 analysis is more accurate than limma analysis. On the other
+hand, In the case that the number of mapped reads in each sample is
+different, limma analysis is recommended.</p></li>
+<li><p><strong>Count file + BigWig files</strong><br> This option can
+only be used if you have previously performed analysis using Pair-wise
+DAR and obtained a count file.<br> Utilizing this mode allows you to
+skip the step of extracting count data from the BigWig file.<br>
+<strong>Type</strong>: Select <strong>Normalized count</strong> or
+<strong>Raw count</strong> based on the conditions for which the count
+file was created. Choose Normalized count if the input is a BigWig file
+and Raw count if the input is a Bam file.<br> Please ensure that the
+settings for <strong>Genomic region</strong> and <strong>Filter</strong>
+match the conditions used in previous analyses.<br> If you intend to
+create peak patterns or track plots, you will also need to upload the
+BigWig file.<br></p></li>
+</ul>
+</div>
+<div id="genomic-region" class="section level4">
+<h4>Genomic region</h4>
+<ul>
+<li><p><strong>Genome-wide</strong><br> Peak call files are
+required.<br> Upload all peak calls files corresponding to the uploaded
+BigWig files.<br> To analyze the reproducible peaks, peak regions that
+are commonly detected in more than two files are selected, and then
+count data of such selected regions is created. <br></p></li>
+<li><p><strong>Filter</strong><br> <strong>Reproducible peaks</strong>:
+This mode extracts only the reproducible peak call regions for each
+condition (regions called as peaks in at least n = 2 conditions).<br>
+For example:<br> X: A_1 no, A_2 no, B_1 yes, B_2 yes → reproducible<br>
+Y: A_1 yes, A_2 no, B_1 yes, B_2 no → NOT reproducible<br> Z: A_1 yes,
+A_2 yes, B_1 no, B_2 no → reproducible<br> In the case of X and Z
+genomic regions, the peak intensity is extracted and quantified from the
+BigWig files.<br><br> <strong>ALL peaks</strong>: This mode quantifies
+all regions that have been called as peaks.<br> <img
+src="manual_figure/pair_peakcallfilter.png" id="id" class="class"
+style="width:50.0%" /><br><br></p></li>
+<li><p><strong>Promoter</strong><br> Peak call files are not
+required.<br> Select the ranges of promoter region from TSS (default:
+upstream = 500 bp, downstream = 500 bp).<br> Select the appropriate
+dataset species. <br><br></p></li>
+</ul>
+<p>Please follow the rules described in “Common rules and important
+notice for output file” for the file names to be uploaded.<br></p>
+<hr />
+</div>
+<div id="species" class="section level4">
+<h4>Species</h4>
+<p>The following analysis is performed by selecting the dataset species
+(reference).</p>
+<ul>
+<li>Analysis of promoter region</li>
+<li>Trackplot, peak distribution, GREAT, HOMER, with RNA-seq <br></li>
+</ul>
+</div>
+<div id="cut-off-conditions" class="section level4">
+<h4>Cut-off conditions</h4>
+<p>Two types of thresholds can be set: <strong>fold change</strong> and
+<strong>FDR</strong>. <br> <br></p>
+<hr />
+</div>
+</div>
+</div>
+<div id="output" class="section level2">
+<h2>Output</h2>
+<div id="input-data" class="section level3">
+<h3>Input Data</h3>
+<p>The file names of uploaded files are displayed.<br> <br> After
+creating the count matrix, the count data is displayed. <br><br> -
+<strong>Sample order</strong><br> You can rearrange the order of BigWig
+files.<br></p>
+<p>Please note that drag-and-drop functionality is not available. To
+reorder the files, delete the text, and re-enter them in the desired
+order for analysis.<br><br> <img
+src="manual_figure/pair-wise%20input.png" id="id" class="class"
+style="width:90.0%" /><br><br></p>
+<hr />
+</div>
+<div id="result-overview" class="section level3">
+<h3>Result overview</h3>
+<div id="clustering-analysis-volcano-plot-heatmap"
+class="section level4">
+<h4>Clustering analysis, volcano plot, heatmap</h4>
+<p>Three types of clustering analyses are performed: principal component
+analysis (PCA), multidimensional scaling (MDS), and hierarchical
+clustering with the ward.D2. <br><br> <img
+src="manual_figure/pair-wise%20pca.png" id="id" class="class"
+style="width:90.0%" /><br><br> Volcano plot and heatmap are displayed to
+visualize differential accessible/binding regions..<br> If you click a
+genomic locus of interest in the “DAR result” table, the corresponding
+dot in the volcano plot becomes green.<br></p>
+</div>
+<div id="trackplot-panel" class="section level4">
+<h4>Trackplot panel</h4>
+<p>If you click a genomic locus of interest in the <strong>DAR
+result</strong> table, the trackplot that shows the selected locus and
+its nearest gene is displayed.<br> A red highlight shown in the
+trackplot is the selected genomic locus. The peak height in the
+trackplot can be adjusted with <strong>peak range</strong>. If you want
+to display additional coverage data in the trackplot, you can upload the
+data from <strong>select additional bigwig files</strong>. <img
+src="manual_figure/pair-wise%20overview.png" id="id" class="class"
+style="width:90.0%" /><br><br> In the volcano plot, you can enclose
+regions of interest on the plot to display a table containing
+information solely for those genomic regions.<br> <img
+src="manual_figure/pair-wise%20overview2.png" id="id" class="class"
+style="width:90.0%" /><br><br></p>
+</div>
+<div id="up_peaks-and-down_peaks-panel" class="section level4">
+<h4>Up_peaks and Down_peaks panel</h4>
+<p>The bed file of DAR is displayed.<br> You can use the bed file as an
+input file for <strong>Venn diagram</strong>,
+<strong>Clustering</strong>, and <strong>Enrichment viewer</strong>
+sections. <br><br></p>
+<hr />
+</div>
+</div>
+<div id="peak-distribution" class="section level3">
+<h3>Peak distribution</h3>
+<p>The pie charts that show the annotation of up and down DAR are
+displayed.<br> The following three levels of the pie chart are
+displayed.<br></p>
+<ul>
+<li><p><strong>Gene Level</strong><br> Promoter, Downstream, Gene body,
+Distal intergenic<br></p></li>
+<li><p><strong>Exon/Intron/Intergenic</strong><br> Exon, Intron,
+Intergenic<br></p></li>
+<li><p><strong>Exon Level</strong><br> 5’ UTR, 3’ UTR, CDS, Other
+exon<br><br> <img src="manual_figure/pair-wise%20distribution.png"
+id="id" class="class" style="width:90.0%" /><br><br></p></li>
+</ul>
+<hr />
+</div>
+<div id="peak-pattern" class="section level3">
+<h3>Peak pattern</h3>
+<p>Peak heatmap and line plot are displayed. The peak heatmap shows the
+signal intensity of each DAR peak. The line plot shows the average
+signal intensity of DAR peaks. If you want to display additional data,
+you can upload the data from <strong>select additional bigwig
+files</strong>.<br><br> <img src="manual_figure/pair-wise%20pattern.png"
+id="id" class="class" style="width:90.0%" /><br><br></p>
+<hr />
+</div>
+<div id="great" class="section level3">
+<h3>GREAT</h3>
+<p>GREAT (Genomic Regions Enrichment of Annotations Tool)-based
+enrichment analysis detects the function of DARs.<br> The following gene
+sets are available for analysis:<br> <a
+href="http://www.gsea-msigdb.org/gsea/msigdb/genesets.jsp?collection=H">MSigDB
+hallmark gene</a> <br> <a href="https://www.kegg.jp">KEGG</a> <br> <a
+href="https://reactome.org">Reactome</a> <br> <a
+href="https://maayanlab.cloud/Harmonizome/resource/Pathway+Interaction+Database">PID
+(Pathway Interaction Database)</a> <br> <a
+href="https://maayanlab.cloud/Harmonizome/dataset/Biocarta+Pathways">BioCarta</a>
+<br> <a
+href="https://www.wikipathways.org/index.php/WikiPathways">WikiPathways</a>
+<br> <a href="http://geneontology.org">GO (biological process, cellular
+component, and molecular function)</a> <br> <a
+href="https://hpo.jax.org/app/">Human phenotype ontology</a> <br> <a
+href="https://saezlab.github.io/dorothea/">DoRothEA regulon
+(activator)</a> <br> <a
+href="https://saezlab.github.io/dorothea/">DoRothEA regulon
+(repressor)</a> <br> <a
+href="http://www.gsea-msigdb.org/gsea/msigdb/genesets.jsp?collection=TFT">Transcription
+factor targets</a> <br> <a
+href="http://www.gsea-msigdb.org/gsea/msigdb/genesets.jsp?collection=MIR">miRNA
+target</a> <br> note: <strong>DoRothEA regulon</strong> is recommended
+for the prediction of transcription factors.<br><br></p>
+<p>This analysis depends on <a
+href="https://bioconductor.org/packages/release/bioc/vignettes/rGREAT/inst/doc/local-GREAT.html">rGREAT</a>.<br><br>
+<img src="manual_figure/pair-wise%20great.png" id="id" class="class"
+style="width:90.0%" /><br><br></p>
+<hr />
+</div>
+<div id="homer" class="section level3">
+<h3>HOMER</h3>
+<p>HOMER (Hypergeometric Optimization of Motif EnRichment)-based motif
+analysis detects DNA-binding motifs enriched in DARs.<br></p>
+<div id="type-of-enrichment-analysis" class="section level4">
+<h4>Type of enrichment analysis</h4>
+<p>“known motif”: turns off searching for de novo motifs for saving time
+<br> “known + unknown motif”: searching for both known and de novo
+motifs <br></p>
+</div>
+<div id="type-of-the-region-for-motif-finding" class="section level4">
+<h4>Type of the region for motif finding</h4>
+<p>“given (exact size)”: Scanning the entire regions of each DAR. In the
+case of the analysis for the broad peaks such as histone modification,
+this mode is effective. <br> “custom size”: Scanning the selecting size
+from the peak center (default: 200). In the case of the analysis of the
+sharp peaks such as ATAC-seq and DNA-binding transcription factors, this
+mode is effective.<br></p>
+</div>
+<div id="background-sequence" class="section level4">
+<h4>Background sequence</h4>
+<p>“ramdom”: Creating a background from the genome based on the GC
+content and scan size of the target sequences.<br> “peak call files”:
+Using peak regions, that exclude the analytic region, as a background.
+(e.g. In the case of the analysis of “up DAR”, NS regions and down DAR
+are used as a background.) <br> It is possible that the “peak call
+files” mode can predict a more specific motif rather than the “random”
+mode.</p>
+</div>
+<div id="download-homer-report" class="section level4">
+<h4>Download homer report</h4>
+<p>The folder that contains HOMER results can be downloaded.<br><br>
+<img src="manual_figure/pair-wise%20motif.png" id="id" class="class"
+style="width:90.0%" /><br><br></p>
+<hr />
+</div>
+</div>
+<div id="with-rnaseq" class="section level3">
+<h3>with RNAseq</h3>
+<p>The integrative analysis with transcriptome is performed by uploading
+the DEG result file from RNA-seq analysis.<br> The format of the DEG
+result file is the following:</p>
+<ul>
+<li>File extension: Tab-separated txt (.txt), comma-separated csv
+(.csv), or Excel (.xlsx) files can be accepted.</li>
+<li>The first column must be a gene symbol or ENSEMBL ID</li>
+<li>The file must contain the following columns: “log2FoldChange” and
+“padj”</li>
+</ul>
+<p>If the file fulfills the above rules, you can use not only the result
+file from bulk RNA-seq but also from scRNA-seq. <br><br>
+<strong>Note</strong>: Log2FoldChange is calculated as Log2(A/B) in the
+“A vs B” scenario, so “Up” corresponds to negative values. If you are
+using a DEG result file obtained from a source other than RNAseqChef,
+please pay attention to the interpretation of positive and negative
+values. <img src="manual_figure/pair-wise%20DEG.png" id="id"
+class="class" style="width:90.0%" /><br><br></p>
+<div id="regulatory-potential-rp-based-integrative-analysis"
+class="section level4">
+<h4>Regulatory Potential (RP)-based integrative analysis</h4>
+<p>In the case of epigenome (DAR) analysis, there are the following
+situations:<br></p>
+<ul>
+<li>multiple DARs are localized near the single gene locus.</li>
+<li>Both up and down DAR are localized near the single gene locus.</li>
+<li>Single DAR is localized near the multiple gene loci</li>
+</ul>
+<p>To combine epigenome information with gene expression data, it is
+first necessary to integrate multiple epigenetic information for each
+gene into a single score. This process is required for establishing the
+one-to-one relationship between epigenome information and gene
+expression for each gene. In EpigenomeChef, the principle of
+<strong>Regulatory Potential (RP)</strong> is accepted to integrate
+multiple epigenetic information for each gene.<br> RP score is
+calculated so that the closer the peak is to the TSS, the higher the
+score, and the farther from the TSS, the lower the score.<br> The
+maximum distance from TSS that affect the RP score can be changed with
+<strong>Regulatory range (distance (kb) from TSS)</strong> (default: 100
+kb). The cutoff condition of DEGs from RNA-seq can be changed with
+<strong>Fold change cutoff for RNA-seq data</strong> and <strong>FDR
+cutoff for RNA-seq data</strong> (default: fold change = 1.5, fdr =
+0.05).</p>
+</div>
+<div id="boxplot" class="section level4">
+<h4>Boxplot</h4>
+<p>Genes are classified with RP score (RP &gt; 1, RP &lt; -1, and
+others), and then the boxplot that shows log2FoldChange of genes in each
+group is displayed.<br> Multiple-comparison test is performed by
+Tukey-HSD.* p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001<br> This plot
+overviews the contribution of epigenetic alteration to gene expression
+change.<br> <img src="manual_figure/pair-wise%20boxplot.png" id="id"
+class="class" style="width:90.0%" /><br><br></p>
+</div>
+<div id="barplot" class="section level4">
+<h4>Barplot</h4>
+<p>The following barplots are displayed:</p>
+<ul>
+<li>above: the classification of DEG based on RP score (up: RP &gt; 0,
+NS: RP = 0, and down: RP &lt; 0)</li>
+<li>below: the classification of RP &gt; 0 (up) and RP &lt; 0 (down)
+genes based on their expression levels (up DEG, down DEG, and NS)</li>
+</ul>
+</div>
+<div id="ks-plot" class="section level4">
+<h4>KS plot</h4>
+<p>This function arranges the genes in descending order of RP score and
+then compares the distribution of the three groups (up DEG, down DEG,
+and NS).<br> The statistic test is performed by Kolmogorov-Smirnov
+tests.<br> This plot overviews the correlation between gene expression
+and RP score (epigenome alteration of interest).<br><br> <img
+src="manual_figure/pair-wise%20barplot.png" id="id" class="class"
+style="width:90.0%" /><br><br></p>
+</div>
+<div id="result-table-panel" class="section level4">
+<h4>Result table panel</h4>
+<p>The result table that links epigenome analysis to transcriptome is
+displayed.<br> e.g. “up-up (both upregulated genes with RNA and
+epigenome)” and “down-down (both downregulated genes with RNA and
+epigenome)”. You can select it from
+<strong>Group(RNA-Epigenome)</strong>.<br> The bed files that contain
+the DAR of each group can be downloaded.<br> The downloaded bed files
+can be used as input files for the sections of <strong>Venn
+diagram</strong>,<strong>Clustering</strong>, and <strong>Enrichment
+viewer</strong>.<br> If you click a gene of interest in the result
+table, the trackplot that shows the selected DAR and its nearest gene is
+displayed in the <strong>Trackplot panel</strong>.<br><br> <img
+src="manual_figure/pair-wise%20rnaseqtrackplot.png" id="id"
+class="class" style="width:90.0%" /><br><br></p>
+</div>
+<div id="functional-enrichment-analysis-panel" class="section level4">
+<h4>Functional enrichment analysis panel</h4>
+<p>If you can select groups of interest in the <strong>Groups
+(RNAseq-Epigenome)</strong>, functional enrichment analysis is
+performed.<br> In this analysis, the enrichment analysis for the RNA-seq
+analysis is performed (NOT GREAT).<br> The analysis depends on <a
+href="https://yulab-smu.top/biomedical-knowledge-mining-book/enrichplot.html">ClusterProfiler</a>.<br><br>
+<img src="manual_figure/pair-wise%20rnaseqenrich.png" id="id"
+class="class" style="width:90.0%" /><br><br></p>
+<hr />
+</div>
+</div>
+<div id="combined-heatmap" class="section level3">
+<h3>Combined Heatmap</h3>
+<p>This function simultaneously visualizes count data and log2FoldChange
+values from RNA-seq, as well as the peak patterns of ChIP-seq and
+ATAC-seq, in a heatmap for Up and Down peaks obtained from Pair-wise
+DAR.<br> Press the START button to initiate the analysis.<br><br> <img
+src="manual_figure/pair-wise%20comb.png" id="id" class="class"
+style="width:90.0%" /><br><br></p>
+<hr />
+</div>
+</div>
+</div>
+<div id="venn-diagram" class="section level1">
+<h1>Venn diagram</h1>
+<p>Venn diagram detects and visualizes the overlaps of genomic loci by
+uploading multiple bed files. By combining it with bigwig files and a
+DEG result file, the peak pattern, annotation, trackplot, and
+correlation with transcriptome are automatically analyzed and visualized
+to dissect the intersection of interest.</p>
+<div id="setting-1" class="section level2">
+<h2>Setting</h2>
+<p><img src="manual_figure/venn%20setting.png" id="id" class="class"
+style="width:50.0%" alt="venn diagram set" /><br></p>
+<hr />
+<div id="input-format-1" class="section level3">
+<h3>Input format</h3>
+<div id="input-1" class="section level4">
+<h4>Input</h4>
+<ul>
+<li><p><strong>Bed files</strong><br> Bed files must be required in this
+section.<br> File names are used as sample names in output figures.<br>
+Simple file names are recommended, as long names adversely affect
+creating figures.。<br> <strong>The maximum number of uploads is
+five</strong></p></li>
+<li><p><strong>BigWig files</strong><br> BigWig files are required for
+trackplot and peak pattern including peak heatmap and line plot. If not
+necessary, BigWig files are not required.</p></li>
+<li><p><strong>Sample order</strong><br> You can rearrange the order of
+BigWig files.<br> Please note that drag-and-drop functionality is not
+available. To reorder the files, delete the text and re-enter them in
+the desired order for analysis.<br></p></li>
+</ul>
+<hr />
+</div>
+<div id="species-1" class="section level4">
+<h4>Species</h4>
+<p>The following analysis is performed by selecting the dataset species
+(reference).</p>
+<ul>
+<li>trackplot、peak distribution、GREAT, HOMER, with RNAseq <br></li>
+</ul>
+<hr />
+</div>
+</div>
+</div>
+<div id="output-1" class="section level2">
+<h2>Output</h2>
+<div id="venn-diagram-1" class="section level3">
+<h3>Venn diagram</h3>
+<p>The overlap of the uploaded bed files is detected and visualized.
+<br><br> <img src="manual_figure/venn%20venn.png" id="id" class="class"
+style="width:90.0%" alt="venn input" /><br><br></p>
+<div id="lineplot-of-intersections-comparison-between-intersections"
+class="section level4">
+<h4>Lineplot of intersections (comparison between intersections)</h4>
+<p>This plot displays the average values of intersections obtained for
+each uploaded BigWig file. It allows you to compare peak heights within
+the intersection regions of a single BigWig file.</p>
+</div>
+<div id="lineplot-of-intersections-comparison-between-bigwig"
+class="section level4">
+<h4>Lineplot of intersections (comparison between bigwig)</h4>
+<p>This plot enables you to compare the peak heights within the
+intersection regions for all the uploaded BigWig files.<br><br></p>
+<p><img src="manual_figure/venn%20lineplot.png" id="id" class="class"
+style="width:90.0%" alt="venn input" /><br><br></p>
+<hr />
+</div>
+</div>
+<div id="peak-pattern-1" class="section level3">
+<h3>Peak pattern</h3>
+<p>The peak pattern of the selected intersection from <strong>Select
+intersect</strong> is analyzed.<br> The hyphen “-” means the
+overlap.<br> e.g. The analysis of A.bed and B.bed<br> A: Genomic loci of
+A that are not overlapped with B. <br> B: Genomic loci of B that are not
+overlapped with A.<br> A-B: Genomic loci of the overlap between A and B.
+<br></p>
+<div id="peak-heatmap-and-line-plot" class="section level4">
+<h4>Peak heatmap and line plot</h4>
+<p>In the case that bigwig files are uploaded, peak heatmap and line
+plot are displayed.<br> If you want to display additional data, you can
+upload bigwig files from <strong>select additional bigwig
+files</strong>.<br></p>
+</div>
+<div id="peak-distribution-1" class="section level4">
+<h4>Peak distribution</h4>
+<p>In the case that <strong>Species</strong> is selected, peak
+distribution is displayed.<br> The annotation of the selected
+intersection is displayed.<br> The following three levels of the pie
+chart are displayed.</p>
+<ul>
+<li><p><strong>Gene Level</strong><br> Promoter, Downstream, Gene body,
+Distal intergenic<br></p></li>
+<li><p><strong>Exon/Intron/Intergenic</strong><br> Exon, Intron,
+Intergenic<br></p></li>
+<li><p><strong>Exon Level</strong><br> 5’ UTR, 3’ UTR, CDS, Other
+exon<br><br> <img src="manual_figure/venn%20pattern.png" id="id"
+class="class" style="width:90.0%" alt="venn input" /><br><br></p></li>
+</ul>
+</div>
+<div id="trackplot-panel-1" class="section level4">
+<h4>Trackplot panel</h4>
+<p>If you click the genomic locus of interest in the <strong>selected
+intersect panel</strong>, the trackplot that shows the selected locus
+and its nearest gene is displayed.<br> The red highlight in the
+trackplot shows the selected genomic locus.<br> The peak height in the
+trackplot can be changed with <strong>peak range</strong>.<br> If you
+want to display additional data, you can upload additional bigwig files
+from <strong>select additional bigwig files</strong>.<br><br> <img
+src="manual_figure/venn%20trackplot.png" id="id" class="class"
+style="width:90.0%" alt="venn input" /><br><br></p>
+</div>
+<div id="selected-intersect-data-panel" class="section level4">
+<h4>selected intersect data panel</h4>
+<p>The table data that contains annotation of the selected intersection
+is displayed.<br> The text file that contains the annotation such as the
+nearest genes can be downloaded.<br> The bed file can be also
+downloaded.<br> The downloaded bed files can be used as input files for
+using them in the section of
+<strong>Clustering</strong>、<strong>Enrichment viewer</strong>.<br></p>
+<hr />
+</div>
+</div>
+<div id="great-1" class="section level3">
+<h3>GREAT</h3>
+<p>GREAT (Genomic Regions Enrichment of Annotations Tool)-based
+enrichment analysis identifies the function of the selected intersection
+in the venn diagram that can be selected from <strong>Select
+intersect</strong>.<br> The following gene sets are available for
+analysis:<br> <a
+href="http://www.gsea-msigdb.org/gsea/msigdb/genesets.jsp?collection=H">MSigDB
+hallmark gene</a> <br> <a href="https://www.kegg.jp">KEGG</a> <br> <a
+href="https://reactome.org">Reactome</a> <br> <a
+href="https://maayanlab.cloud/Harmonizome/resource/Pathway+Interaction+Database">PID
+(Pathway Interaction Database)</a> <br> <a
+href="https://maayanlab.cloud/Harmonizome/dataset/Biocarta+Pathways">BioCarta</a>
+<br> <a
+href="https://www.wikipathways.org/index.php/WikiPathways">WikiPathways</a>
+<br> <a href="http://geneontology.org">GO (biological process, cellular
+component, and molecular function)</a> <br> <a
+href="https://hpo.jax.org/app/">Human phenotype ontology</a> <br> <a
+href="https://saezlab.github.io/dorothea/">DoRothEA regulon
+(activator)</a> <br> <a
+href="https://saezlab.github.io/dorothea/">DoRothEA regulon
+(repressor)</a> <br> <a
+href="http://www.gsea-msigdb.org/gsea/msigdb/genesets.jsp?collection=TFT">Transcription
+factor targets</a> <br> <a
+href="http://www.gsea-msigdb.org/gsea/msigdb/genesets.jsp?collection=MIR">miRNA
+target</a> <br> note: <strong>DoRothEA regulon</strong> is recommended
+for the prediction of transcription factors.<br><br></p>
+<p>This analysis depends on <a
+href="https://bioconductor.org/packages/release/bioc/vignettes/rGREAT/inst/doc/local-GREAT.html">rGREAT</a>.<br><br>
+<img src="manual_figure/venn%20great.png" id="id" class="class"
+style="width:90.0%" alt="venn input" /><br><br></p>
+<hr />
+</div>
+<div id="homer-1" class="section level3">
+<h3>HOMER</h3>
+<p>HOMER (Hypergeometric Optimization of Motif EnRichment)-based motif
+analysis identifies the DNA-binding motif of the selected intersection
+in the venn diagram that can be selected from <strong>Select
+intersect</strong>.<br></p>
+<div id="type-of-enrichment-analysis-1" class="section level4">
+<h4>Type of enrichment analysis</h4>
+<p>“known motif”: turns off searching for de novo motifs for saving
+time.<br> “known + unknown motif”: searching for both known and de novo
+motifs <br></p>
+</div>
+<div id="type-of-the-region-for-motif-finding-1" class="section level4">
+<h4>Type of the region for motif finding</h4>
+<p>“given (exact size)”: Scanning the entire regions of each genomic
+locus. In the case of the analysis for the broad peaks such as histone
+modification, this mode is effective. <br> “custom size”: Scanning the
+selecting size from the peak center (default: 200). In the case of the
+analysis of the sharp peaks such as ATAC-seq and DNA-binding
+transcription factors, this mode is effective.<br></p>
+</div>
+<div id="background-sequence-1" class="section level4">
+<h4>Background sequence</h4>
+<p>“ramdom”: Creating a background from the genome based on the GC
+content and scan size of the target sequences.<br> “peak call files”:
+Using peak regions, that exclude the analytic region, as a
+background.<br> If you click the “peak call files”, the window for
+uploading bed files appears. It is possible that the “peak call files”
+mode can predict a more specific motif rather than the “random”
+mode.</p>
+</div>
+<div id="download-homer-report-1" class="section level4">
+<h4>Download homer report</h4>
+<p>The folder that contains HOMER results can be downloaded.<br><br>
+<img src="manual_figure/venn%20motif.png" id="id" class="class"
+style="width:90.0%" alt="venn input" /><br><br></p>
+<hr />
+</div>
+</div>
+<div id="with-rnaseq-1" class="section level3">
+<h3>with RNAseq</h3>
+<p>The integrative analysis of the selected intersection with
+transcriptome is performed by uploading the DEG result file from RNA-seq
+analysis.<br> The format of the DEG result file is the following:</p>
+<ul>
+<li>File extension: Tab-separated txt (.txt), comma-separated csv
+(.csv), or Excel (.xlsx) files can be accepted.</li>
+<li>The first column must be a gene symbol or ENSEMBL ID</li>
+<li>The file must contain the following columns: “log2FoldChange” and
+“padj”</li>
+</ul>
+<p>If the file fulfills the above rules, you can use not only the result
+file from bulk RNA-seq but also from scRNA-seq. <br><br> <img
+src="manual_figure/pair-wise%20DEG.png" id="id" class="class"
+style="width:90.0%" /><br><br></p>
+<div id="regulatory-potential-rp-based-integrative-analysis-1"
+class="section level4">
+<h4>Regulatory Potential (RP)-based integrative analysis</h4>
+<p>In the epigenome analysis, there is the case that multiple peaks are
+associated with a single gene.<br> To combine epigenome information with
+gene expression data, it is first necessary to integrate multiple
+epigenetic information for each gene into a single score. This process
+is required for establishing the one-to-one relationship between
+epigenome information and gene expression for each gene. In
+EpigenomeChef, the principle of <strong>Regulatory Potential
+(RP)</strong> is accepted to integrate multiple epigenetic information
+for each gene.<br> RP score is calculated so that the closer the peak is
+to the TSS, the higher the score, and the farther from the TSS, the
+lower the score.<br> The maximum distance from TSS that affect the RP
+score can be changed with <strong>Regulatory range (distance (kb) from
+TSS)</strong> (default: 100 kb). The cutoff condition of DEGs from
+RNA-seq can be changed with <strong>Fold change cutoff for RNA-seq
+data</strong> and <strong>FDR cutoff for RNA-seq data</strong> (default:
+fold change = 1.5, fdr = 0.05).</p>
+</div>
+<div id="boxplot-1" class="section level4">
+<h4>Boxplot</h4>
+<p>Genes are classified with RP score (RP &gt; 1 and others), and then
+the boxplot that shows log2FoldChange of genes in each group is
+displayed.<br> Pair-wise comparison is performed by Welch’s t-test. *
+p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001<br> This boxplot shows the
+contribution of the selected intersection to gene expression.<br><br>
+<img src="manual_figure/venn%20boxplot.png" id="id" class="class"
+style="width:90.0%" /><br><br></p>
+</div>
+<div id="barplot-1" class="section level4">
+<h4>Barplot</h4>
+<p>The following barplots are displayed.</p>
+<ul>
+<li>above: the classification of DEGs based on RP scores (up: RP &gt;0
+and NS: others)<br></li>
+<li>below: the classification of RP &gt; 0 genes based on their
+expression levels (up DEG, down DEG, and NS)<br></li>
+</ul>
+</div>
+<div id="ks-plot-1" class="section level4">
+<h4>KS plot</h4>
+<p>This function arranges the genes in descending order of RP score and
+then compares the distribution of the three groups (up DEG, down DEG,
+and NS).<br> The statistic test is performed by Kolmogorov-Smirnov
+tests.<br> This plot overviews the correlation between gene expression
+and RP score (epigenome alteration of interest).<br><br> <img
+src="manual_figure/venn%20barplot.png" id="id" class="class"
+style="width:90.0%" /><br><br></p>
+</div>
+<div id="result-table-panel-1" class="section level4">
+<h4>Result table panel</h4>
+<p>The result table that links epigenome to transcriptome is
+displayed.<br> e.g. “both upregulated genes with RNA and epigenome” and
+“both downregulated genes with RNA and epigenome”. The table data
+selected from <strong>Group(RNA-Epigenome)</strong> is displayed.<br>
+The bed file can be downloaded for using it in the section of
+<strong>Clustering</strong> and <strong>enrichment viewer</strong><br>
+If you click a gene of interest in the result table panel, the trackplot
+that shows the selected genes and genomic loci are displayed in the
+<strong>trackplot panel</strong>.<br> <br> <img
+src="manual_figure/venn%20rnaseqtrackplot.png" id="id" class="class"
+style="width:90.0%" /><br><br></p>
+</div>
+<div id="functional-enrichment-analysis-panel-1" class="section level4">
+<h4>Functional enrichment analysis panel</h4>
+<p>If you can select groups of interest in the <strong>Groups
+(RNAseq-Epigenome)</strong>, functional enrichment analysis is
+performed.<br> In this analysis, the enrichment analysis for the RNA-seq
+analysis is performed (NOT GREAT).<br> The analysis depends on <a
+href="https://yulab-smu.top/biomedical-knowledge-mining-book/enrichplot.html">ClusterProfiler</a>.。<br><br>
+<img src="manual_figure/venn%20rnaseqenrich.png" id="id" class="class"
+style="width:90.0%" /><br><br></p>
+<hr />
+</div>
+</div>
+<div id="combined-heatmap-1" class="section level3">
+<h3>Combined Heatmap</h3>
+<p>This function simultaneously visualizes count data and log2FoldChange
+values from RNA-seq, as well as the peak patterns of ChIP-seq and
+ATAC-seq, in a heatmap for Up and Down peaks obtained from Pair-wise
+DAR.<br> Please make sure to select the genomic regions of interest from
+<strong>Select intersection</strong> to create the heatmap.<br> Press
+the START button to initiate the analysis.<br><br></p>
+<hr />
+</div>
+</div>
+</div>
+<div id="clustering" class="section level1">
+<h1>Clustering</h1>
+<p>Clustering performs the clustering analysis of uploaded bigwig
+files.<br> There are two purposes for this section.</p>
+<ul>
+<li>An overview of the uploaded data using PCA, MDS, dendrogram, and
+correlation plot that evaluates their similarity.</li>
+<li>k-means clustering for dissecting genomic loci of interest in
+detail.</li>
+</ul>
+<div id="setting-2" class="section level2">
+<h2>Setting</h2>
+<p><img src="manual_figure/clustering%20set.png" id="id" class="class"
+style="width:50.0%" /><br></p>
+<hr />
+<div id="input-format-2" class="section level3">
+<h3>Input format</h3>
+<p>There is an important parameter as below.<br></p>
+<ul>
+<li><strong>Genomic region</strong>: “Genome-wide” or “Promoter”</li>
+</ul>
+<div id="genomic-region-1" class="section level4">
+<h4>Genomic region</h4>
+<ul>
+<li><p><strong>Genome-wide</strong><br> Bed files are required.<br> In
+the case that the purpose is an overview of data, the peak call files
+corresponding to all uploaded bigwig files are required. (Note: there is
+no filtering function like Pair-wise DAR. All genomic loci in uploaded
+bed files are analyzed.)<br> In the case that the purpose is a k-means
+clustering analysis, the bed file that is obtained from the sections of
+Pair-wise DAR and Venn diagram can be used. The only genomic loci in the
+bed file are analyzed.<br> (Note: The maximum number of genomic loci
+that can be analyzed is 10,000. )</p></li>
+<li><p><strong>Filter</strong><br> Reproducible peaks: This option
+extracts only the reproducible peak call regions for each condition
+(regions called as peaks in at least n = 2 conditions). <br> However,
+for samples where n = 1, all peak call regions are extracted. 例:<br> X:
+A_1 no, A_2 no, B_1 yes, B_2 yes, C_1 no → reproducible<br> Y: A_1 yes,
+A_2 no, B_1 yes, B_2 no, C_1 no → NOT reproducible<br> Z: A_1 yes, A_2
+yes, B_1 no, B_2 no, C_1 yes → reproducible<br> C: A_1 no, A_2 no, B_1
+no, B_2 no, C_1 yes → C is handled as reproducible since C_1 is n =
+1.<br> For X, Z, and C genomic regions, peak intensity is extracted and
+quantified from the BigWig files.<br><br> <strong>ALL peaks</strong>:
+This mode quantifies all regions that have been called as peaks.<br>
+<img src="manual_figure/cluster_filter.png" id="id" class="class"
+style="width:50.0%" /><br><br></p></li>
+<li><p><strong>Promoter</strong><br> Bed files are not necessary.<br>
+The range of promoter region can be changed (default: upstream = 500 bp,
+downstream = 500 bp).<br> You can extract the promoter region of genes
+of interest by uploading a gene list file, and then can analyze
+them.<br> Select the appropriate dataset
+<strong>Species</strong>.<br><br></p></li>
+</ul>
+<p>Please follow the rules described in “Common rules and important
+notice for output file” for the file names to be uploaded.<br></p>
+<hr />
+</div>
+<div id="species-2" class="section level4">
+<h4>Species</h4>
+<p>The following analysis is performed by selecting the dataset species
+(reference).</p>
+<ul>
+<li>trackplot、peak distribution、GREAT, HOMER, with RNAseq <br></li>
+</ul>
+</div>
+<div id="cut-off-conditions-1" class="section level4">
+<h4>Cut-off conditions</h4>
+<p>Two types of thresholds can be set: <strong>fold change</strong> and
+<strong>FDR</strong>. <br> <br></p>
+<hr />
+</div>
+</div>
+</div>
+<div id="output-2" class="section level2">
+<h2>Output</h2>
+<div id="input-data-1" class="section level3">
+<h3>Input Data</h3>
+<p>The uploaded file names are displayed.<br> After creating a count
+matrix, the count data is displayed. <br><br> - <strong>Sample
+order</strong><br> You can rearrange the order of BigWig files.<br></p>
+<p>Please note that drag-and-drop functionality is not available. To
+reorder the files, delete the text, and re-enter them in the desired
+order for analysis.<br><br> <img
+src="manual_figure/clustering%20input.png" id="id" class="class"
+style="width:90.0%" /><br><br></p>
+<hr />
+</div>
+<div id="result-overview-1" class="section level3">
+<h3>Result overview</h3>
+<p>Three types of clustering analysis are performed: Principal Component
+Analysis (PCA), Multi-Dimensional Scaling (MDS), and ward.D2
+dendrogram.<br> Pearson’s correlation is calculated and the correlation
+plot is displayed.<br><br> <img
+src="manual_figure/clustering%20overview.png" id="id" class="class"
+style="width:90.0%" /><br><br></p>
+<hr />
+</div>
+<div id="k-means-clustering" class="section level3">
+<h3>k-means clustering</h3>
+<p>k-means clustering is performed.<br> The number of genomic regions to
+be analyzed is limited to a maximum of 10,000 regions (default is 2,000
+loci) due to memory constraints. You can adjust this limit using the
+<strong>Most variable loci</strong>.。<br></p>
+<ul>
+<li><strong>Select a pair for fold change cut-off</strong><br> Choose
+the two groups for which you want to apply the Fold Change cut-off.<br>
+The number of genomic regions after the cut-off is displayed in red.
+Please use this number as a reference to set the <strong>Most variable
+loci</strong>.<br></li>
+<li><strong>k-means number</strong><br> Set the number of
+clusters.<br></li>
+<li><strong>Order of clusters on heatmap</strong><br> You can change the
+order of clusters on the heatmap. <br></li>
+</ul>
+<p><img src="manual_figure/clustering%20kmeans.png" id="id"
+class="class" style="width:90.0%" /><br><br></p>
+<p>You can analyze the clusters of interest by selecting them from
+<strong>cluster_list</strong>.<br> In the case of selecting multiple
+clusters, it analyzes all clusters as the same cluster (not analyze each
+cluster indivisually).<br></p>
+<div id="peak-pattern-2" class="section level4">
+<h4>Peak pattern</h4>
+<p>Peak heatmap and line plot of the selecting cluster are
+displayed.<br> If you want to display additional data, you can upload
+bigwig files from <strong>select additional bigwig files</strong>.<br>
+<img src="manual_figure/clustering%20pattern.png" id="id" class="class"
+style="width:90.0%" /><br><br></p>
+</div>
+<div id="trackplot-panel-2" class="section level4">
+<h4>Trackplot panel</h4>
+<p>If you click the genomic locus of interest in the <strong>selected
+cluster panel</strong>, the trackplot that shows the selected locus and
+its nearest gene is displayed.<br> The red highlight in the trackplot
+shows the selected genomic locus.<br> The peak height in the trackplot
+can be changed with <strong>peak range</strong>.<br> If you want to
+display additional data, you can upload additional bigwig files from
+<strong>select additional bigwig files</strong>.<br><br> <img
+src="manual_figure/clustering%20trackplot.png" id="id" class="class"
+style="width:90.0%" alt="venn input" /><br><br></p>
+<hr />
+</div>
+</div>
+<div id="with-rnaseq-2" class="section level3">
+<h3>with RNAseq</h3>
+<p>The integrative analysis of the selected cluster with transcriptome
+is performed by uploading the DEG result file from RNA-seq analysis.<br>
+The format of the DEG result file is the following:</p>
+<ul>
+<li>File extension: Tab-separated txt (.txt), comma-separated csv
+(.csv), or Excel (.xlsx) files can be accepted.</li>
+<li>The first column must be a gene symbol or ENSEMBL ID</li>
+<li>The file must contain the following columns: “log2FoldChange” and
+“padj”</li>
+</ul>
+<p>If the file fulfills the above rules, you can use not only the result
+file from bulk RNA-seq but also from scRNA-seq. <br><br> <img
+src="manual_figure/pair-wise%20DEG.png" id="id" class="class"
+style="width:90.0%" /><br><br></p>
+<div id="regulatory-potential-rp-based-integrative-analysis-2"
+class="section level4">
+<h4>Regulatory Potential (RP)-based integrative analysis</h4>
+<p>In the epigenome analysis, there is the case that multiple peaks are
+associated with a single gene.<br> To combine epigenome information with
+gene expression data, it is first necessary to integrate multiple
+epigenetic information for each gene into a single score. This process
+is required for establishing the one-to-one relationship between
+epigenome information and gene expression for each gene. In
+EpigenomeChef, the principle of <strong>Regulatory Potential
+(RP)</strong> is accepted to integrate multiple epigenetic information
+for each gene.<br> RP score is calculated so that the closer the peak is
+to the TSS, the higher the score, and the farther from the TSS, the
+lower the score.<br> The maximum distance from TSS that affect the RP
+score can be changed with <strong>Regulatory range (distance (kb) from
+TSS)</strong> (default: 100 kb). The cutoff condition of DEGs from
+RNA-seq can be changed with <strong>Fold change cutoff for RNA-seq
+data</strong> and <strong>FDR cutoff for RNA-seq data</strong> (default:
+fold change = 1.5, fdr = 0.05).</p>
+</div>
+<div id="boxplot-2" class="section level4">
+<h4>Boxplot</h4>
+<p>Genes are classified with RP score (RP &gt; 1 and others), and then
+the boxplot that shows log2FoldChange of genes in each group is
+displayed.<br> Pair-wise comparison is performed by Welch’s t-test. *
+p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001<br> This boxplot shows the
+contribution of the selected cluster to gene expression.<br><br> <img
+src="manual_figure/clustering%20boxplot.png" id="id" class="class"
+style="width:90.0%" /><br><br></p>
+</div>
+<div id="barplot-2" class="section level4">
+<h4>Barplot</h4>
+<p>Genes are classified with RP score (RP &gt; 1 and others), and then
+the boxplot that shows log2FoldChange of genes in each group is
+displayed.<br> Pair-wise comparison is performed by Welch’s t-test. *
+p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001<br> This boxplot shows the
+contribution of the selected cluster to gene expression.<br><br></p>
+</div>
+<div id="ks-plot-2" class="section level4">
+<h4>KS plot</h4>
+<p>This function arranges the genes in descending order of RP score and
+then compares the distribution of the three groups (up DEG, down DEG,
+and NS).<br> The statistic test is performed by Kolmogorov-Smirnov
+tests.<br> This plot overviews the correlation between gene expression
+and RP score (epigenome alteration of interest).<br><br> <img
+src="manual_figure/clustering%20barplot.png" id="id" class="class"
+style="width:90.0%" /><br><br></p>
+</div>
+<div id="result-table-panel-2" class="section level4">
+<h4>Result table panel</h4>
+<p>The result table that links epigenome to transcriptome is
+displayed.<br> e.g. “both upregulated genes with RNA and epigenome” and
+“both downregulated genes with RNA and epigenome”. The table data
+selected from <strong>Group(RNA-Epigenome)</strong> is displayed.<br>
+The bed file can be downloaded for using it in the section of
+<strong>Venn diagram</strong> and <strong>enrichment
+viewer</strong>.<br> If you click a gene of interest in the result table
+panel, the trackplot that shows the selected genes and genomic loci is
+displayed in the <strong>trackplot panel</strong>.<br> <br> <img
+src="manual_figure/clustering%20rnaseqtrackplot.png" id="id"
+class="class" style="width:90.0%" /><br><br></p>
+</div>
+<div id="functional-enrichment-analysis-panel-2" class="section level4">
+<h4>Functional enrichment analysis panel</h4>
+<p>If you can select groups of interest in the <strong>Groups
+(RNAseq-Epigenome)</strong>, functional enrichment analysis is
+performed.<br> In this analysis, the enrichment analysis for the RNA-seq
+analysis is performed (NOT GREAT).<br> The analysis depends on <a
+href="https://yulab-smu.top/biomedical-knowledge-mining-book/enrichplot.html">ClusterProfiler</a>.。<br><br>
+<img src="manual_figure/clustering%20rnaseqenrich.png" id="id"
+class="class" style="width:90.0%" /><br><br></p>
+<hr />
+</div>
+</div>
+</div>
+</div>
+<div id="enrichment-viewer" class="section level1">
+<h1>Enrichment viewer</h1>
+<p>Enrichment viewer performs the functional and motif enrichment
+analysis by uploading bed files.<br> By using bed files from the Venn
+diagram and k-means clustering analysis, it detects and compares the
+functions and motifs of the identified intersection and clusters.
+<br><br></p>
+<div id="setting-3" class="section level2">
+<h2>Setting</h2>
+<p><img src="manual_figure/enrich%20set.png" id="id" class="class"
+style="width:50.0%" alt="venn diagram set" /><br></p>
+<hr />
+<div id="input-format-3" class="section level3">
+<h3>Input format</h3>
+<div id="input-2" class="section level4">
+<h4>Input</h4>
+<ul>
+<li><strong>Bed files</strong><br> Bed files must be required.<br> File
+names are used as sample names in output figures.<br> Simple names are
+recommended, as long names adversely affect creating figures.<br></li>
+</ul>
+<hr />
+</div>
+<div id="species-3" class="section level4">
+<h4>Species</h4>
+<p>Selecting the appropriate dataset “Species” must be required.
+<br></p>
+<hr />
+</div>
+</div>
+</div>
+<div id="output-3" class="section level2">
+<h2>Output</h2>
+<div id="input-list" class="section level3">
+<h3>Input list</h3>
+<p>The uploaded file names are displayed. <br><br> <img
+src="manual_figure/enrich%20input.png" id="id" class="class"
+style="width:90.0%" /><br><br></p>
+<hr />
+</div>
+<div id="great-2" class="section level3">
+<h3>GREAT</h3>
+<p>GREAT (Genomic Regions Enrichment of Annotations Tool)-based
+enrichment analysis identifies the function of the uploaded files.<br>
+The following gene sets are available for analysis:<br> <a
+href="http://www.gsea-msigdb.org/gsea/msigdb/genesets.jsp?collection=H">MSigDB
+hallmark gene</a> <br> <a href="https://www.kegg.jp">KEGG</a> <br> <a
+href="https://reactome.org">Reactome</a> <br> <a
+href="https://maayanlab.cloud/Harmonizome/resource/Pathway+Interaction+Database">PID
+(Pathway Interaction Database)</a> <br> <a
+href="https://maayanlab.cloud/Harmonizome/dataset/Biocarta+Pathways">BioCarta</a>
+<br> <a
+href="https://www.wikipathways.org/index.php/WikiPathways">WikiPathways</a>
+<br> <a href="http://geneontology.org">GO (biological process, cellular
+component, and molecular function)</a> <br> <a
+href="https://hpo.jax.org/app/">Human phenotype ontology</a> <br> <a
+href="https://saezlab.github.io/dorothea/">DoRothEA regulon
+(activator)</a> <br> <a
+href="https://saezlab.github.io/dorothea/">DoRothEA regulon
+(repressor)</a> <br> <a
+href="http://www.gsea-msigdb.org/gsea/msigdb/genesets.jsp?collection=TFT">Transcription
+factor targets</a> <br> <a
+href="http://www.gsea-msigdb.org/gsea/msigdb/genesets.jsp?collection=MIR">miRNA
+target</a> <br> note: <strong>DoRothEA regulon</strong> is recommended
+for the prediction of transcription factors.<br><br></p>
+<p>The analysis depends on <a
+href="https://bioconductor.org/packages/release/bioc/vignettes/rGREAT/inst/doc/local-GREAT.html">rGREAT</a>.<br><br>
+<img src="manual_figure/enrich%20great.png" id="id" class="class"
+style="width:90.0%" alt="venn input" /><br><br></p>
+<hr />
+</div>
+<div id="homer-2" class="section level3">
+<h3>HOMER</h3>
+<p>HOMER (Hypergeometric Optimization of Motif EnRichment)-based motif
+analysis identifies DNA-binding motif enriched in each uploaded bed
+file.<br></p>
+<div id="type-of-enrichment-analysis-2" class="section level4">
+<h4>Type of enrichment analysis</h4>
+<p>“known motif”: turns off searching for de novo motifs for saving
+time.<br> “known + unknown motif”: searching for both known and de novo
+motifs <br></p>
+</div>
+<div id="type-of-the-region-for-motif-finding-2" class="section level4">
+<h4>Type of the region for motif finding</h4>
+<p>“given (exact size)”: Scanning the entire regions of each genomic
+locus. In the case of the analysis for the broad peaks such as histone
+modification, this mode is effective. <br> “custom size”: Scanning the
+selecting size from the peak center (default: 200). In the case of the
+analysis of the sharp peaks such as ATAC-seq and DNA-binding
+transcription factors, this mode is effective.<br></p>
+</div>
+<div id="background-sequence-2" class="section level4">
+<h4>Background sequence</h4>
+<p>“ramdom”: Creating a background from the genome based on the GC
+content and scan size of the target sequences.<br> “peak call files”:
+Using peak regions, that exclude the analytic region, as a
+background.<br> If you click the “peak call files”, the window for
+uploading bed files appears. It is possible that the “peak call files”
+mode can predict a more specific motif rather than the “random”
+mode.</p>
+</div>
+<div id="download-homer-report-2" class="section level4">
+<h4>Download homer report</h4>
+<p>The folder that contains HOMER results can be downloaded.<br><br>
+<img src="manual_figure/venn%20motif.png" id="id" class="class"
+style="width:90.0%" alt="venn input" /><br><br></p>
+<hr />
+</div>
+</div>
+<div id="combined-heatmap-2" class="section level3">
+<h3>Combined Heatmap</h3>
+<p>This function simultaneously visualizes count data and log2FoldChange
+values from RNA-seq, as well as the peak patterns of ChIP-seq and
+ATAC-seq, in a heatmap for Up and Down peaks obtained from Pair-wise
+DAR.<br> You must upload at least one BigWig file into <strong>Select
+bigwig files (red)</strong>.<br> Press the START button to initiate the
+analysis.<br><br></p>
+<p><img src="manual_figure/enrich%20combined.png" id="id" class="class"
+style="width:90.0%" /><br><br></p>
+<hr />
+</div>
+</div>
+</div>
+<div id="more" class="section level1">
+<h1>More</h1>
+<div id="bedtools" class="section level2">
+<h2>bedtools</h2>
+<p>Bedtools handles bed files.<br> The file extension of input files
+must be in bed format (.bed or .narrowPeak).<br> Bedtools depends on <a
+href="https://haizi-zh.github.io/bedtorch/">bedtorch</a><br></p>
+<div id="merge-interval" class="section level3">
+<h3>Merge interval</h3>
+<p>If the size of the adjacent regions is less than the specified size
+(can be changed from <strong>Gap size</strong>), create a file that
+merges the adjacent region.<br> <br><br> <img
+src="manual_figure/merge_interval.png" id="id" class="class"
+style="width:90.0%" alt="venn input" /><br><br></p>
+</div>
+<div id="subtract" class="section level3">
+<h3>Subtract</h3>
+<p>Subtract removes each overlapping interval in B from A.<br><br> <img
+src="manual_figure/subtract.png" id="id" class="class"
+style="width:90.0%" alt="venn input" /><br><br></p>
+</div>
+<div id="intersect" class="section level3">
+<h3>Intersect</h3>
+<p>(default) Intersect reports the shared interval between the two
+overlapping features. <br> (-wa option) Intersect (-wa) reports the
+original “A” feature when an overlap is found.<br> (-v option) Intersect
+(-v) reports the “A” features that have no overlaps in “B”.<br><br> <img
+src="manual_figure/intersect.png" id="id" class="class"
+style="width:90.0%" alt="venn input" /><br><br></p>
+<hr />
+</div>
+</div>
+</div>
+<div id="tips" class="section level1">
+<h1>Tips</h1>
+<div
+id="note-of-data-from-chip-atlaschip-seq-analysis-of-histone-modification"
+class="section level2">
+<h2>Note of data from ChIP-atlas：ChIP-seq analysis of histone
+modification</h2>
+<p>e.g.: Pair-wise DAR, input: samples from ATAC-seq <img
+src="manual_figure/chipatlas_1.png" id="id" class="class"
+style="width:100.0%" alt="venn input" /><br><br></p>
+</div>
+<div id="homer-importance-of-background-sequence"
+class="section level2">
+<h2>HOMER: Importance of “Background sequence”</h2>
+<p><img src="manual_figure/chipatlas_2.png" id="id" class="class"
+style="width:100.0%" alt="venn input" /><br><br></p>
+<hr />
+</div>
+</div>
+<div id="reference" class="section level1">
+<h1>Reference</h1>
+<p>Shiny framework</p>
+<ul>
+<li>Winston Chang, Joe Cheng, JJ Allaire, Carson Sievert, Barret
+Schloerke, Yihui Xie, Jeff Allen, Jonathan McPherson, Alan Dipert and
+Barbara Borges (2021). shiny: Web Application Framework for R. R package
+version 1.7.1. <a href="https://CRAN.R-project.org/package=shiny"
+class="uri">https://CRAN.R-project.org/package=shiny</a></li>
+<li>Eric Bailey (2022). shinyBS: Twitter Bootstrap Components for Shiny.
+R package version 0.61.1. <a
+href="https://CRAN.R-project.org/package=shinyBS"
+class="uri">https://CRAN.R-project.org/package=shinyBS</a></li>
+<li>Yihui Xie, Joe Cheng and Xianying Tan (2022). DT: A Wrapper of the
+JavaScript Library ‘DataTables’. R package version 0.23. <a
+href="https://CRAN.R-project.org/package=DT"
+class="uri">https://CRAN.R-project.org/package=DT</a></li>
+</ul>
+<p>DESeq2 and limma (for differential accessibility region analysis)</p>
+<ul>
+<li>Love, M.I., Huber, W., Anders, S. Moderated estimation of fold
+change and dispersion for RNA-seq data with DESeq2 Genome Biology
+15(12):550 (2014)</li>
+<li>Ritchie, M.E., Phipson, B., Wu, D., Hu, Y., Law, C.W., Shi, W., and
+Smyth, G.K. (2015). limma powers differential expression analyses for
+RNA-sequencing and microarray studies. Nucleic Acids Research 43(7),
+e47.</li>
+</ul>
+<p>ggdendro (for dendrograms)</p>
+<ul>
+<li>Andrie de Vries and Brian D. Ripley (2020). ggdendro: Create
+Dendrograms and Tree Diagrams Using ‘ggplot2’. R package version 0.1.22.
+<a href="https://CRAN.R-project.org/package=ggdendro"
+class="uri">https://CRAN.R-project.org/package=ggdendro</a></li>
+</ul>
+<p>ggcorrplot (for correlation plot)</p>
+<ul>
+<li>Kassambara A (2022). <em>ggcorrplot: Visualization of a Correlation
+Matrix using ‘ggplot2’</em>. R package version 0.1.4, <a
+href="https://CRAN.R-project.org/package=ggcorrplot"
+class="uri">https://CRAN.R-project.org/package=ggcorrplot</a>.</li>
+</ul>
+<p>rGREAT, clusterProfiler, DOSE, msigdbr, dorothea (for enrichment
+analysis)</p>
+<ul>
+<li>Gu Z (2022). <em>rGREAT: GREAT Analysis - Functional Enrichment on
+Genomic Regions</em>. <a href="https://github.com/jokergoo/rGREAT"
+class="uri">https://github.com/jokergoo/rGREAT</a>, <a
+href="http://great.stanford.edu/public/html/"
+class="uri">http://great.stanford.edu/public/html/</a>.</li>
+<li>T Wu, E Hu, S Xu, M Chen, P Guo, Z Dai, T Feng, L Zhou, W Tang, L
+Zhan, X Fu, S Liu, X Bo, and G Yu. clusterProfiler 4.0: A universal
+enrichment tool for interpreting omics data. The Innovation. 2021,
+2(3):100141</li>
+<li>Guangchuang Yu, Li-Gen Wang, Guang-Rong Yan, Qing-Yu He. DOSE: an
+R/Bioconductor package for Disease Ontology Semantic and Enrichment
+analysis. Bioinformatics 2015 31(4):608-609</li>
+<li>Dolgalev I (2022). <em>msigdbr: MSigDB Gene Sets for Multiple
+Organisms in a Tidy Data Format</em>. R package version 7.5.1, <a
+href="https://CRAN.R-project.org/package=msigdbr"
+class="uri">https://CRAN.R-project.org/package=msigdbr</a>.</li>
+<li>Garcia-Alonso L, Holland CH, Ibrahim MM, Turei D, Saez-Rodriguez J.
+‘Benchmark and integration of resources for the estimation of human
+transcription factor activities.’ Genome Research. 2019. DOI:
+10.1101/gr.240663.118.</li>
+</ul>
+<p>AnnotationDbi, org.Hs.eg.db, org.Mm.eg.db (for genome wide
+annotation)</p>
+<ul>
+<li>Hervé Pagès, Marc Carlson, Seth Falcon and Nianhua Li (2020).
+AnnotationDbi: Manipulation of SQLite-based annotations in Bioconductor.
+R package version 1.52.0. <a
+href="https://bioconductor.org/packages/AnnotationDbi"
+class="uri">https://bioconductor.org/packages/AnnotationDbi</a></li>
+<li>Marc Carlson (2020). org.Hs.eg.db: Genome wide annotation for Human.
+R package version 3.12.0.</li>
+<li>Marc Carlson (2020). org.Mm.eg.db: Genome wide annotation for Mouse.
+R package version 3.12.0.</li>
+</ul>
+<p>genefilter (for z-score normalization)</p>
+<ul>
+<li>R. Gentleman, V. Carey, W. Huber and F. Hahne (2021). genefilter:
+methods for filtering genes from high-throughput experiments. R package
+version 1.72.1.</li>
+</ul>
+<p>ComplexHeatmap (for heatmap and k-means clustering)</p>
+<ul>
+<li>Gu, Z. (2016) Complex heatmaps reveal patterns and correlations in
+multidimensional genomic data. Bioinformatics.</li>
+</ul>
+<p>ggplot2 and ggpubr (for boxplot and scater plot)</p>
+<ul>
+<li>H. Wickham. ggplot2: Elegant Graphics for Data Analysis.
+Springer-Verlag New York, 2016.</li>
+<li>Alboukadel Kassambara (2020). ggpubr: ‘ggplot2’ Based Publication
+Ready Plots. R package version 0.4.0. <a
+href="https://CRAN.R-project.org/package=ggpubr"
+class="uri">https://CRAN.R-project.org/package=ggpubr</a></li>
+</ul>
+<p>venn (for venn diagram analysis)</p>
+<ul>
+<li>Mitjavila-Ventura A (2022). <em>plotmics: Visualization of Omics And
+Sequencing Data In R</em>. <a
+href="https://amitjavilaventura.github.io/plotmics/index.html"
+class="uri">https://amitjavilaventura.github.io/plotmics/index.html</a>,
+<a href="https://github.com/amitjavilaventura/plotmics"
+class="uri">https://github.com/amitjavilaventura/plotmics</a>.</li>
+</ul>
+<p>GenomicRanges, soGGi,
+ChIPQC,ChIPseeker,TxDb.Mmusculus.UCSC.mm10.knownGene,
+TxDb.Hsapiens.UCSC.hg19.knownGene (for manupilate genomic information
+and annotation)</p>
+<ul>
+<li>Lawrence M, Huber W, Pag`es H, Aboyoun P, Carlson M, et al. (2013)
+Software for Computing and Annotating Genomic Ranges. PLoS Comput Biol
+9(8): e1003118. <a href="doi:10.1371/journal.pcbi.1003118"
+class="uri">doi:10.1371/journal.pcbi.1003118</a>”</li>
+<li>Dharmalingam G, Carroll T (2015). <em>soGGi: Visualise ChIP-seq,
+MNase-seq and motif occurrence as aggregate plots Summarised Over
+Grouped Genomic Intervals</em>. R package version 1.10.4.</li>
+<li>Thomas Samuel Carroll, Ziwei Liang, Rafik Salama, Rory Stark, Ines
+de Santiago: Impact of artefact removal on ChIP quality metrics in
+ChIP-seq and ChIP-exo data. Frontiers in Genetics, in press.</li>
+<li>Guangchuang Yu, Li-Gen Wang, and Qing-Yu He. ChIPseeker: an
+R/Bioconductor package for ChIP peak annotation, comparison and
+visualization. Bioinformatics 2015, 31(14):2382-2383</li>
+<li>Lihua J Zhu, Claude Gazin, Nathan D Lawson, Herve Pages, Simon M
+Lin, David S Lapointe and Michael R Green, ChIPpeakAnno: a Bioconductor
+package to annotate ChIP-seq and ChIP-chip data. BMC Bioinformatics.
+2010, 11:237</li>
+<li>Team BC, Maintainer BP (2019).
+<em>TxDb.Mmusculus.UCSC.mm10.knownGene: Annotation package for TxDb
+object(s)</em>. R package version 3.10.0.</li>
+<li>Carlson M, Maintainer BP (2015).
+<em>TxDb.Hsapiens.UCSC.hg19.knownGene: Annotation package for TxDb
+object(s)</em>. R package version 3.2.2.</li>
+<li>Team BC, Maintainer BP (2022).
+<em>TxDb.Hsapiens.UCSC.hg38.knownGene: Annotation package for TxDb
+object(s)</em>. R package version 3.15.0.</li>
+</ul>
+<p>dplyr and tidyr (for data manipulation)</p>
+<ul>
+<li>Hadley Wickham, Romain François, Lionel Henry and Kirill Müller
+(2021). dplyr: A Grammar of Data Manipulation. R package version 1.0.7.
+<a href="https://CRAN.R-project.org/package=dplyr"
+class="uri">https://CRAN.R-project.org/package=dplyr</a></li>
+<li>Hadley Wickham (2021). tidyr: Tidy Messy Data. R package version
+1.1.3. <a href="https://CRAN.R-project.org/package=tidyr"
+class="uri">https://CRAN.R-project.org/package=tidyr</a></li>
+</ul>
+<p>rtracklayer, Rsubread, Rsamtools</p>
+<ul>
+<li>M. Lawrence, R. Gentleman, V. Carey: “rtracklayer: an {R} package
+for interfacing with genome browsers”. Bioinformatics 25:1841-1842.</li>
+<li>Liao Y, Smyth GK and Shi W (2019). The R package Rsubread is easier,
+faster, cheaper and better for alignment and quantification of RNA
+sequencing reads. Nucleic Acids Research 47(8), e47.</li>
+<li>Morgan M, Pagès H, Obenchain V, Hayden N (2022). <em>Rsamtools:
+Binary alignment (BAM), FASTA, variant call (BCF), and tabix file
+import</em>. R package version 2.12.0, <a
+href="https://bioconductor.org/packages/Rsamtools"
+class="uri">https://bioconductor.org/packages/Rsamtools</a>.</li>
+</ul>
+<p>FindIT2 (for with RNAseq)</p>
+<ul>
+<li>Shang, G.-D., Xu, Z.-G., Wan, M.-C., Wang, F.-X. &amp; Wang, J.-W.
+FindIT2: an R/Bioconductor package to identify influential transcription
+factor and targets based on multi-omics data. BMC Genomics 23, 272
+(2022)</li>
+</ul>
+<p>marge, ggseqlogo (for motif analysis)</p>
+<ul>
+<li>Amezquita R (2022). <em>marge: API for HOMER in R for Genomic
+Analysis using Tidy Conventions</em>. R package version 0.0.4.9999.</li>
+<li>Wagih O (2017). <em>ggseqlogo: A ‘ggplot2’ Extension for Drawing
+Publication-Ready Sequence Logos</em>. R package version 0.1, <a
+href="https://CRAN.R-project.org/package=ggseqlogo"
+class="uri">https://CRAN.R-project.org/package=ggseqlogo</a>.</li>
+</ul>
+<p>colorspace</p>
+<ul>
+<li>Zeileis A, Hornik K, Murrell P (2009). “Escaping RGBland: Selecting
+Colors for Statistical Graphics.” <em>Computational Statistics &amp;
+Data Analysis</em>, <em>53</em>(9), 3259-3270. <a
+href="doi:10.1016/j.csda.2008.11.033"
+class="uri">doi:10.1016/j.csda.2008.11.033</a> <a
+href="https://doi.org/10.1016/j.csda.2008.11.033"
+class="uri">https://doi.org/10.1016/j.csda.2008.11.033</a>.</li>
+</ul>
+<p>bedtorch (for bedtools)</p>
+<ul>
+<li>Zheng H (2021). <em>bedtorch: R package for fast BED-file
+manipulation</em>. R package version 0.1.12.12, <a
+href="https://github.com/haizi-zh/bedtorch"
+class="uri">https://github.com/haizi-zh/bedtorch</a>.</li>
+</ul>
+<p>Gviz (for track plot)</p>
+<ul>
+<li>Hahne F, Ivanek R. Visualizing Genomic Data Using Gviz and
+Bioconductor. Methods Mol Biol. 1418:335-51 (2016).</li>
+</ul>
+<hr />
+</div>
+<div id="license" class="section level1">
+<h1>License</h1>
+<p>This shiny code is licensed under the GPLv3. Please see the file
+LICENSE.md for information.</p>
+<pre><code>EpigenomeChef
+Shiny App for highlighting epigenome-transcriptome interaction.
+Copyright (C) 2023  Kan Etoh
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+
+You may contact the author of this code, Kan Etoh, at &lt;kaneto@kumamoto-u.ac.jp&gt;</code></pre>
+<hr />
+</div>
+<div id="security" class="section level1">
+<h1>Security</h1>
+<p>This application is hosted on a <a
+href="https://www.shinyapps.io/">Shinyapps.io</a> server.<br> By using
+this app you are agreeing to the terms of use as described by
+Shinnyaps.io: <a
+href="https://www.rstudio.com/about/shinyapps-terms-use/">https://www.rstudio.com/about/shinyapps-terms-use/</a>.<br>
+We will not save your data on our servers. However, as the Shinyapps
+server is not HIPAA compliant, you must refrain from uploading protected
+health information with this app. You can instead run the app locally on
+your private computer and network (see <a
+href="https://github.com/Kan-E/EpigenomeChef#local-installation">Local
+installation</a>).<br> We are not responsible for the confidentiality,
+availability, security, loss, misuse or misappropriation of any data you
+submit to this application.<br><br> From the Shinyapps terms of use <a
+href="https://www.rstudio.com/about/shinyapps-terms-use/">https://www.rstudio.com/about/shinyapps-terms-use/</a>:If
+you choose to upload data to an application you are using via the
+RStudio Service, you acknowledge and agree you are giving certain legal
+rights to the licensor of the application to process and otherwise use
+your data. Please carefully review any license terms accompanying any
+application to which you submit your data for the legal rights which you
+are giving the application licensor. Further, RStudio does not claim
+ownership of your data; however, you hereby grant RStudio a worldwide,
+perpetual, irrevocable, royalty-free, fully paid up, transferable and
+non-exclusive license, as applicable, to use and copy your data in
+connection with making your data available to the application (and the
+licensor of such application) to which you have submitted your data. You
+acknowledge and agree that even if you remove your data from the RStudio
+Service, your data may have been downloaded by, and remain accessible
+to, the licensors of those applications to which you submitted your
+data. Accordingly, do not submit data which you desire to remain
+confidential or which you wish to limit the right to access or use. You
+should never submit to the RStudio Service any data which consists of
+personally identifiable information, credit card information, or
+protected health information, as such terms are defined by relevant
+laws, rules, and regulations. RSTUDIO IS NOT RESPONSIBLE FOR THE
+CONFIDENTIALITY, AVAILABILITY, SECURITY, LOSS, MISUSE OR
+MISAPPROPRIATION OF ANY DATA YOU SUBMIT TO THE RSTUDIO SERVICE OR ANY
+APPLICATION MADE AVAILABLE VIA THE RSTUDIO SERVICE.”</p>
+<hr />
+</div>
+<div id="session-info" class="section level1">
+<h1>Session info</h1>
+<pre class="r"><code> sessionInfo()</code></pre>
+<pre><code>## R version 4.2.3 (2023-03-15)
+## Platform: x86_64-apple-darwin17.0 (64-bit)
+## Running under: macOS Big Sur ... 10.16
+## 
+## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+##  [1] grid      tools     stats4    stats     graphics  grDevices utils    
+##  [8] datasets  methods   base     
+## 
+## other attached packages:
+##   [1] Gviz_1.40.1                                  
+##   [2] TxDb.Mmusculus.UCSC.mm39.refGene_3.12.0      
+##   [3] clue_0.3-64                                  
+##   [4] webshot_0.5.4                                
+##   [5] magick_2.7.4                                 
+##   [6] pdftools_3.3.3                               
+##   [7] EnrichedHeatmap_1.26.0                       
+##   [8] ggrastr_1.0.1                                
+##   [9] ggsci_3.0.0                                  
+##  [10] reshape2_1.4.4                               
+##  [11] venn_1.11                                    
+##  [12] RColorBrewer_1.1-3                           
+##  [13] ggcorrplot_0.1.4                             
+##  [14] colorspace_2.1-0                             
+##  [15] plotmics_7.0.1                               
+##  [16] marge_0.0.4.9999                             
+##  [17] ggseqlogo_0.1                                
+##  [18] limma_3.52.4                                 
+##  [19] FindIT2_1.2.3                                
+##  [20] rGREAT_1.28.0                                
+##  [21] ChIPpeakAnno_3.30.1                          
+##  [22] ChIPseeker_1.32.1                            
+##  [23] soGGi_1.10.4                                 
+##  [24] dorothea_1.8.0                               
+##  [25] clusterProfiler.dplyr_0.0.2                  
+##  [26] BiocManager_1.30.20                          
+##  [27] shinyjs_2.1.0                                
+##  [28] plotly_4.10.1                                
+##  [29] shinyBS_0.61.1                               
+##  [30] ComplexHeatmap_2.12.1                        
+##  [31] genefilter_1.78.0                            
+##  [32] msigdbr_7.5.1                                
+##  [33] DOSE_3.22.1                                  
+##  [34] enrichplot_1.16.2                            
+##  [35] clusterProfiler_4.4.4                        
+##  [36] ggnewscale_0.4.8                             
+##  [37] DESeq2_1.36.0                                
+##  [38] SummarizedExperiment_1.26.1                  
+##  [39] MatrixGenerics_1.8.1                         
+##  [40] matrixStats_0.63.0                           
+##  [41] cowplot_1.1.1                                
+##  [42] gridExtra_2.3                                
+##  [43] ggplotify_0.1.0                              
+##  [44] ggdendro_0.1.23                              
+##  [45] ggrepel_0.9.3                                
+##  [46] ggpubr_0.6.0                                 
+##  [47] lubridate_1.9.2                              
+##  [48] forcats_1.0.0                                
+##  [49] stringr_1.5.0                                
+##  [50] dplyr_1.1.2                                  
+##  [51] purrr_1.0.1                                  
+##  [52] readr_2.1.4                                  
+##  [53] tidyr_1.3.0                                  
+##  [54] tibble_3.2.1                                 
+##  [55] ggplot2_3.4.2                                
+##  [56] tidyverse_2.0.0                              
+##  [57] multcomp_1.4-23                              
+##  [58] TH.data_1.1-2                                
+##  [59] MASS_7.3-58.2                                
+##  [60] survival_3.5-3                               
+##  [61] mvtnorm_1.1-3                                
+##  [62] rstatix_0.7.2                                
+##  [63] gdata_2.19.0                                 
+##  [64] DT_0.27                                      
+##  [65] shiny_1.7.4                                  
+##  [66] biomaRt_2.52.0                               
+##  [67] org.Pt.eg.db_3.15.0                          
+##  [68] org.Mmu.eg.db_3.15.0                         
+##  [69] org.Gg.eg.db_3.15.0                          
+##  [70] org.Dr.eg.db_3.15.0                          
+##  [71] org.Cf.eg.db_3.15.0                          
+##  [72] org.Bt.eg.db_3.15.0                          
+##  [73] org.Xl.eg.db_3.15.0                          
+##  [74] org.Ce.eg.db_3.15.0                          
+##  [75] org.Dm.eg.db_3.15.0                          
+##  [76] org.Rn.eg.db_3.15.0                          
+##  [77] org.Mm.eg.db_3.15.0                          
+##  [78] org.Hs.eg.db_3.15.0                          
+##  [79] TxDb.Ptroglodytes.UCSC.panTro4.refGene_3.12.0
+##  [80] TxDb.Mmulatta.UCSC.rheMac8.refGene_3.12.0    
+##  [81] TxDb.Ggallus.UCSC.galGal4.refGene_3.12.0     
+##  [82] TxDb.Drerio.UCSC.danRer10.refGene_3.4.6      
+##  [83] TxDb.Cfamiliaris.UCSC.canFam3.refGene_3.11.0 
+##  [84] TxDb.Btaurus.UCSC.bosTau8.refGene_3.12.0     
+##  [85] TxDb.Celegans.UCSC.ce11.refGene_3.4.6        
+##  [86] TxDb.Rnorvegicus.UCSC.rn6.refGene_3.4.6      
+##  [87] TxDb.Dmelanogaster.UCSC.dm6.ensGene_3.12.0   
+##  [88] TxDb.Mmusculus.UCSC.mm10.knownGene_3.10.0    
+##  [89] TxDb.Hsapiens.UCSC.hg38.knownGene_3.15.0     
+##  [90] TxDb.Hsapiens.UCSC.hg19.knownGene_3.2.2      
+##  [91] GenomicFeatures_1.48.4                       
+##  [92] AnnotationDbi_1.58.0                         
+##  [93] Biobase_2.56.0                               
+##  [94] Rsamtools_2.12.0                             
+##  [95] Biostrings_2.64.1                            
+##  [96] XVector_0.36.0                               
+##  [97] Rsubread_2.10.5                              
+##  [98] rtracklayer_1.56.1                           
+##  [99] GenomicRanges_1.48.0                         
+## [100] GenomeInfoDb_1.32.4                          
+## [101] IRanges_2.30.1                               
+## [102] S4Vectors_0.34.0                             
+## [103] BiocGenerics_0.42.0                          
+## 
+## loaded via a namespace (and not attached):
+##   [1] Hmisc_5.0-1              glmnet_4.1-7             foreach_1.5.2           
+##   [4] crayon_1.5.2             nlme_3.1-162             backports_1.4.1         
+##   [7] GOSemSim_2.22.0          rlang_1.1.0              filelock_1.0.2          
+##  [10] BiocParallel_1.30.4      rjson_0.2.21             chipseq_1.46.0          
+##  [13] bcellViper_1.32.0        bit64_4.0.5              glue_1.6.2              
+##  [16] vipor_0.4.5              parallel_4.2.3           regioneR_1.28.0         
+##  [19] tidyselect_1.2.0         XML_3.99-0.14            zoo_1.8-12              
+##  [22] GenomicAlignments_1.32.1 xtable_1.8-4             magrittr_2.0.3          
+##  [25] evaluate_0.20            cli_3.6.1                zlibbioc_1.42.0         
+##  [28] RVenn_1.1.0              hwriter_1.3.2.1          rstudioapi_0.14         
+##  [31] rpart_4.1.19             bslib_0.4.2              fastmatch_1.1-3         
+##  [34] ensembldb_2.20.2         lambda.r_1.2.4           treeio_1.20.2           
+##  [37] xfun_0.39                askpass_1.1              multtest_2.52.0         
+##  [40] cluster_2.1.4            caTools_1.18.2           tidygraph_1.2.3         
+##  [43] KEGGREST_1.36.3          biovizBase_1.44.0        ape_5.7-1               
+##  [46] png_0.1-8                withr_2.5.0              bitops_1.0-7            
+##  [49] ggforce_0.4.1            RBGL_1.72.0              plyr_1.8.8              
+##  [52] AnnotationFilter_1.20.0  pillar_1.9.0             gplots_3.1.3            
+##  [55] GlobalOptions_0.1.2      cachem_1.0.7             GetoptLong_1.0.5        
+##  [58] vctrs_0.6.2              ellipsis_0.3.2           generics_0.1.3          
+##  [61] qpdf_1.3.2               foreign_0.8-84           beeswarm_0.4.0          
+##  [64] munsell_0.5.0            tweenr_2.0.2             fgsea_1.22.0            
+##  [67] DelayedArray_0.22.0      fastmap_1.1.1            compiler_4.2.3          
+##  [70] abind_1.4-5              httpuv_1.6.9             GenomeInfoDbData_1.2.8  
+##  [73] InteractionSet_1.24.0    lattice_0.20-45          deldir_1.0-6            
+##  [76] utf8_1.2.3               later_1.3.0              BiocFileCache_2.4.0     
+##  [79] jsonlite_1.8.4           scales_1.2.1             graph_1.74.0            
+##  [82] tidytree_0.4.2           carData_3.0-5            lazyeval_0.2.2          
+##  [85] promises_1.2.0.1         car_3.1-2                doParallel_1.0.17       
+##  [88] latticeExtra_0.6-30      checkmate_2.1.0          rmarkdown_2.21          
+##  [91] sandwich_3.0-2           ggVennDiagram_1.2.2      dichromat_2.0-0.1       
+##  [94] downloader_0.4           BSgenome_1.64.0          igraph_1.4.2            
+##  [97] yaml_2.3.7               plotrix_3.8-2            htmltools_0.5.5         
+## [100] memoise_2.0.1            VariantAnnotation_1.42.1 BiocIO_1.6.0            
+## [103] locfit_1.5-9.7           graphlayouts_0.8.4       viridisLite_0.4.1       
+## [106] digest_0.6.31            mime_0.12                rappdirs_0.3.3          
+## [109] futile.options_1.0.1     RSQLite_2.3.1            yulab.utils_0.0.6       
+## [112] VennDiagram_1.7.3        data.table_1.14.8        blob_1.2.4              
+## [115] futile.logger_1.4.3      preprocessCore_1.58.0    Formula_1.2-5           
+## [118] splines_4.2.3            ProtGenerics_1.28.0      RCurl_1.98-1.12         
+## [121] broom_1.0.4              hms_1.1.3                base64enc_0.1-3         
+## [124] ggbeeswarm_0.7.1         shape_1.4.6              aplot_0.1.10            
+## [127] nnet_7.3-18              sass_0.4.5               Rcpp_1.0.10             
+## [130] circlize_0.4.15          fansi_1.0.4              tzdb_0.3.0              
+## [133] R6_2.5.1                 lifecycle_1.0.3          formatR_1.14            
+## [136] ShortRead_1.54.0         curl_5.0.0               ggsignif_0.6.4          
+## [139] jquerylib_0.1.4          DO.db_2.9                Matrix_1.5-3            
+## [142] qvalue_2.28.0            iterators_1.0.14         htmlwidgets_1.6.2       
+## [145] polyclip_1.10-4          shadowtext_0.1.2         timechange_0.2.0        
+## [148] gridGraphics_0.5-1       htmlTable_2.4.1          patchwork_1.1.2         
+## [151] codetools_0.2-19         GO.db_3.15.0             gtools_3.9.4            
+## [154] prettyunits_1.1.1        dbplyr_2.3.2             gtable_0.3.3            
+## [157] DBI_1.1.3                ggfun_0.0.9              httr_1.4.5              
+## [160] KernSmooth_2.23-20       stringi_1.7.12           progress_1.2.2          
+## [163] farver_2.1.1             annotate_1.74.0          viridis_0.6.2           
+## [166] ggtree_3.4.4             xml2_1.3.3               admisc_0.31             
+## [169] boot_1.3-28.1            restfulr_0.0.15          interp_1.1-4            
+## [172] geneplotter_1.74.0       bit_4.0.5                scatterpie_0.1.9        
+## [175] jpeg_0.1-10              ggraph_2.1.0             pkgconfig_2.0.3         
+## [178] babelgene_22.9           knitr_1.43</code></pre>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
