@@ -17,34 +17,48 @@ EpigenomeChef is a platform of systematic epigenome data analysis which can auto
 Data downloaded from ChIP-atlas, a database of ChIP-seq, ATAC-seq, and Bisulfite-seq, can be used as input.<br>
 In addition, it easily performed the integrative analysis with transcriptome data by uploading the results file of differentially expressed gene (DEG) analysis obtained from RNA-seq data.<br>
 
-## Install
+## Web version (for tutorial)
+[https://imeg-ku.shinyapps.io/EpigenomeChef_web/](https://imeg-ku.shinyapps.io/EpigenomeChef_web/).<br>
+This version is a web application hosted on a [Shinyapps.io](https://www.shinyapps.io/) server.<br>
+Due to server limitations, including capacity constraints and the number of simultaneous connections, and unavailability for HOMER (motif analysis), I recommend using the Docker version.<br>
+The web version has limitations mentioned above but has ample capacity for venn diagram analysis, functional enrichment analysis, peak annotation, and integrative analysis of epigenome-transcriptome based on regulatory potential.
+
+
+## Installation of Docker version
 EpigenomeChef can be used by installing the Docker image.<br>
-0. (If you do not have a Docker environment) Install Docker <br>
-1. Run the following command (Once you run it, you won't need it again) <br> 
 
-HOMER mouse (mm10) (required storage size: 17Gb)
+### 0. (If you do not have a Docker environment) Install Docker <br>
+
+### 1. Run the following command (Once you run it, you won't need it again) <br> 
+
 ```
-docker pull omicschef/epigenomechef:mm10v1.0.5-beta
+docker pull omicschef/epigenomechef:v1.1.2
 
-## Please replace mm10 with the appropriate dataset reference.
-## e.g. docker pull omicschef/epigenomechef:hg19v1.0.5-beta
-```
-
-2. Run the following command for the launch EpigenomeChef on the browser
-
-HOMER mouse (mm10)
-```
-docker run --rm -p 3838:3838 omicschef/epigenomechef:mm10v1.0.5-beta
-
-## Please replace mm10 with the appropriate dataset reference.
-## e.g. docker run --rm -p 3838:3838 omicschef/epigenomechef:hg19v1.0.5-beta
 ```
 
-Access [http://localhost:3838](http://localhost:3838).
+### 2. Launch EpigenomeChef on the browser
 
+#### Method 1: command line 
+
+```
+docker run --rm -p 3838:3838 omicschef/epigenomechef:v1.1.2
+
+## Option: run using bind mount
+## you can bind folder containing bigwig files to the container.
+## docker run --rm -p 3838:3838  -v ${path/to/directory}:/srv/shiny-server/EpigenomeChef/Volume omicschef/epigenomechef:v1.1.0
+## e.g. When you want to select current directory, you can use the following command:
+docker run --rm -p 3838:3838  -v ${PWD}:/srv/shiny-server/EpigenomeChef/Volume omicschef/epigenomechef:v1.1.0
+```
+
+**Access [http://localhost:3838](http://localhost:3838).**<br><br>
+
+#### Method 2: Docker Desktop
+![panel](manual_figure/docker.png){#id .class width=100%} <br><br>
+
+## Contact
 If you need help, please create an issue on [Github](https://github.com/Kan-E/EpigenomeChef/issues) or [contact us](mailto:kaneto@kumamoto-u.ac.jp){.email}. <br>
 
-
+## Design
 EpigenomeChef consists of the following sections:<br>
 
 - **Pair-wise** (differential accessible/binding region for pair-wise comparison)
@@ -53,7 +67,7 @@ EpigenomeChef consists of the following sections:<br>
 
 - **Clustering** (Dimension reduction for clustering, k-means clustering analysis)
 
-- **Enrichment viewer** (Functional and motif analysis of interest of genomic loci)
+- **Peaks of interest** (Functional and motif analysis of interest of genomic loci)
 
 - **More**（Other useful functions, Reference, etc）
 
@@ -70,7 +84,7 @@ The user-interface consists of **Menu**, **Setting panel**, **Tab panel**.<br> E
 Coverage data:
 
 - BigWig file (.BigWig or .bw)
-- Bam file (.bam) (option for Pair-wise DAR)
+- Bam file (.bam) (option for "Pair-wise" section)
 
 Peak call data:
 
@@ -92,10 +106,10 @@ Do not use the underline "_" for anything else.
 
 #### File names of peak call and bed files
 
-- **Pair-wise DAR、Clustering**<br>
+- **"Pair-wise", "Clustering"**<br>
 Any file names do not affect the analysis.<br>
 
-- **Venn diagram、Enrichment viewer、Bedtools**<br>
+- **"Venn diagram", "Peaks of interest", Bedtools**<br>
 File names are used as sample names in output figures.<br>
 Simple file names are recommended, as long names adversely affect creating figures. <br>
 
@@ -117,9 +131,9 @@ You can change the figure size by adjusting the “Output plot size setting for 
 
 ---
 
-# Pair-wise DAR
+# Pair-wise
 
-"Pair-wise DAR" detects and visualizes differentially accessible/binding regions (DAR). This function executes a series of pairwise DAR analyses such as “DAR detection”, “clustering analysis”, “Function and motif enrichment analysis (GREAT and HOMER, respectively)”, and "Integrative analysis with RNA-seq".
+"Pair-wise" detects and visualizes differential peak regions. This function executes a series of pairwise analyses such as “differential region detection”, “clustering analysis”, “Function and motif enrichment analysis (GREAT and HOMER, respectively)”, and "Integrative analysis with RNA-seq".
 
 ## Setting
 
@@ -133,7 +147,6 @@ The most important parameters are the following.<br>
 
 - **input**: "BigWig file" or "Bam file"
 - **Genomic region**: "Genome-wide" or "Promoter"
-- **Count file + BigWig files*
 
 #### Input
 
@@ -148,7 +161,7 @@ In the case that the number of mapped reads in each sample is almost the same, D
 On the other hand, In the case that the number of mapped reads in each sample is different, limma analysis is recommended.
 
 - **Count file + BigWig files**<br>
-This option can only be used if you have previously performed analysis using Pair-wise DAR and obtained a count file.<br>
+This option can only be used if you have previously performed analysis using "Pair-wise" and obtained a count file.<br>
 Utilizing this mode allows you to skip the step of extracting count data from the BigWig file.<br>
 **Type**: Select **Normalized count** or **Raw count** based on the conditions for which the count file was created. Choose Normalized count if the input is a BigWig file and Raw count if the input is a Bam file.<br>
 Please ensure that the settings for **Genomic region** and **Filter** match the conditions used in previous analyses.<br>
@@ -185,7 +198,7 @@ Please follow the rules described in "Common rules and important notice for outp
 The following analysis is performed by selecting the dataset species (reference).
 
 - Analysis of promoter region
-- Trackplot, peak distribution, GREAT, HOMER, with RNA-seq
+- Trackplot, annotation, GREAT, HOMER, with RNA-seq
 <br>  
     
 #### Cut-off conditions
@@ -215,11 +228,16 @@ Please note that drag-and-drop functionality is not available. To reorder the fi
 Three types of clustering analyses are performed: principal component analysis (PCA), multidimensional scaling (MDS), and hierarchical clustering with the ward.D2.
 <br><br>
 ![](manual_figure/pair-wise pca.png){#id .class width=90%}<br><br>
-Volcano plot and heatmap are displayed to visualize differential accessible/binding regions..<br>
-If you click a genomic locus of interest in the "DAR result" table, the corresponding dot in the volcano plot becomes green.<br>
+Volcano plot and heatmap are displayed to visualize differential accessible/binding regions.<br>
+If you click a genomic locus of interest in the "result" table, the corresponding dot in the volcano plot becomes green.<br>
+
+#### Regression
+There are two types of regression methods.<br>
+**least squares**: Classical statistical methods in general.<br>
+**robust**: Robust estimation is effective when the data includes outliers.<br>
 
 #### Trackplot panel
-If you click a genomic locus of interest in the **DAR result** table, the trackplot that shows the selected locus and its nearest gene is displayed.<br>
+If you click a genomic locus of interest in the **result** table, the trackplot that shows the selected locus and its nearest gene is displayed.<br>
 A red highlight shown in the trackplot is the selected genomic locus.
 The peak height in the trackplot can be adjusted with **peak range**.
 If you want to display additional coverage data in the trackplot, you can upload the data from **select additional bigwig files**.
@@ -228,16 +246,16 @@ In the volcano plot, you can enclose regions of interest on the plot to display 
 ![](manual_figure/pair-wise overview2.png){#id .class width=90%}<br><br>
 
 
-#### Up_peaks and Down_peaks panel
-The bed file of DAR is displayed.<br>
-You can use the bed file as an input file for **Venn diagram**, **Clustering**, and **Enrichment viewer** sections.
+#### Red_peaks and Blue_peaks panels
+The bed file of the differential peak regions (red peaks: higher regions in condition 2, blue peaks: higher regions in condition 1) is displayed.<br>
+You can use the bed file as an input file for **Venn diagram**, **Clustering**, and **Peaks of interest** sections.
 <br><br>
 
 ---
 
-### Peak distribution
+### Annotation
 
-The pie charts that show the annotation of up and down DAR are displayed.<br>
+The pie charts that show the annotation of differential peak regions are displayed.<br>
 The following three levels of the pie chart are displayed.<br>
 
 - **Gene Level**<br>
@@ -255,8 +273,8 @@ Exon, Intron, Intergenic<br>
 ### Peak pattern
 
 Peak heatmap and line plot are displayed.
-The peak heatmap shows the signal intensity of each DAR peak.
-The line plot shows the average signal intensity of DAR peaks.
+The peak heatmap shows the signal intensity of each differential peak.
+The line plot shows the average signal intensity of differential peaks.
 If you want to display additional data, you can upload the data from **select additional bigwig files**.<br><br>
 ![](manual_figure/pair-wise pattern.png){#id .class width=90%}<br><br>
 
@@ -264,7 +282,7 @@ If you want to display additional data, you can upload the data from **select ad
 
 ### GREAT
 
-GREAT (Genomic Regions Enrichment of Annotations Tool)-based enrichment analysis detects the function of DARs.<br>
+GREAT (Genomic Regions Enrichment of Annotations Tool)-based enrichment analysis detects the function of differential peak regions.<br>
 The following gene sets are available for analysis:<br>
 [MSigDB hallmark gene](http://www.gsea-msigdb.org/gsea/msigdb/genesets.jsp?collection=H) <br>
 [KEGG](https://www.kegg.jp) <br>
@@ -287,19 +305,24 @@ This analysis depends on [rGREAT](https://bioconductor.org/packages/release/bioc
 
 ### HOMER
 
-HOMER (Hypergeometric Optimization of Motif EnRichment)-based motif analysis detects DNA-binding motifs enriched in DARs.<br>
+HOMER (Hypergeometric Optimization of Motif EnRichment)-based motif analysis detects DNA-binding motifs enriched in differential peak regions.<br>
+
+#### Install HOMER reference
+HOMER reference of the species (select from the setting panel) can be installed.
+If the HOMER reference for your dataset species has not been installed in the container yet,
+you need to press the 'Install HOMER reference' button.
 
 #### Type of enrichment analysis
 "known motif": turns off searching for de novo motifs for saving time <br>
 "known + unknown motif": searching for both known and de novo motifs <br>
 
 #### Type of the region for motif finding
-"given (exact size)": Scanning the entire regions of each DAR. In the case of the analysis for the broad peaks such as histone modification, this mode is effective. <br>
+"given (exact size)": Scanning the entire regions of each differential peak region. In the case of the analysis for the broad peaks such as histone modification, this mode is effective. <br>
 "custom size": Scanning the selecting size from the peak center (default: 200). In the case of the analysis of the sharp peaks such as ATAC-seq and DNA-binding transcription factors, this mode is effective.<br>
 
 #### Background sequence
 "ramdom": Creating a background from the genome based on the GC content and scan size of the target sequences.<br>
-"peak call files": Using peak regions, that exclude the analytic region, as a background. (e.g. In the case of the analysis of "up DAR", NS regions and down DAR are used as a background.) <br>
+"peak call files": Using peak regions, that exclude the analytic region, as a background. (e.g. In the case of the analysis of "up region", NS regions and down region are used as a background.) <br>
 It is possible that the "peak call files" mode can predict a more specific motif rather than the "random" mode.
 
 #### Download homer report
@@ -308,74 +331,107 @@ The folder that contains HOMER results can be downloaded.<br><br>
 
 ---
 
+### Combined Heatmap
+
+This function simultaneously visualizes count data and log2FoldChange values from RNA-seq, as well as the peak patterns of ChIP-seq and ATAC-seq, in a heatmap for Up and Down peaks obtained from "Pair-wise" section.<br>
+Press the START button to initiate the analysis.<br><br>
+![](manual_figure/pair-wise comb.png){#id .class width=90%}<br><br>
+
+
+---
+
 ### with RNAseq
 The integrative analysis with transcriptome is performed by uploading the DEG result file from RNA-seq analysis.<br>
-The format of the DEG result file is the following:
+Two types of RNA-seq data can be used as inputs.<br>
 
-- File extension: Tab-separated txt (.txt), comma-separated csv (.csv), or Excel (.xlsx) files can be accepted.
-- The first column must be a gene symbol or ENSEMBL ID
-- The file must contain the following columns: "log2FoldChange" and "padj"
+#### Raw_count (2 conditions)
+The analysis can be performed with raw count data if the following conditions are fulfilled:
+
+    - A file consists of only two groups of data to be analyzed.
+    - The replication number is represented by the underline “_”.
+    - Do not use the underline "_" for anything else. 
+    
+DEG analysis is performed using [DESeq2](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-014-0550-8).<br>
+
+![unchanged image](manual_figure/input_format1.png){.class width="50%"}<br>
+
+#### DEG_Result from pair-wise analysis
+The analysis can only be performed with the DEG result file if the following conditions are fulfilled:
+
+    - File extension: Tab-separated txt (.txt), comma-separated csv (.csv), or Excel (.xlsx) files can be accepted.
+    - The first column must be a gene symbol or ENSEMBL ID
+    - The file must contain the following columns: "log2FoldChange" and "padj"
 
 If the file fulfills the above rules, you can use not only the result file from bulk RNA-seq but also from scRNA-seq. <br><br>
-**Note**: Log2FoldChange is calculated as Log2(A/B) in the "A vs B" scenario, so "Up" corresponds to negative values. If you are using a DEG result file obtained from a source other than RNAseqChef, please pay attention to the interpretation of positive and negative values.
+**Name of condition 1/2**: you can change the condition names.<br>
+**Note**: Log2FoldChange is calculated as Log2(A/B) in the "A vs B" scenario, so "Up" corresponds to negative values. If you are using a DEG result file obtained from a source other than RNAseqChef, please pay attention to the interpretation of positive and negative values.<br>
 ![](manual_figure/pair-wise DEG.png){#id .class width=90%}<br><br>
 
 #### Regulatory Potential (RP)-based integrative analysis
-In the case of epigenome (DAR) analysis, there are the following situations:<br>
+In the case of epigenome (differential peak regions) analysis, there are the following situations:<br>
 
-- multiple DARs are localized near the single gene locus.
-- Both up and down DAR are localized near the single gene locus.
-- Single DAR is localized near the multiple gene loci
+- multiple regions are localized near the single gene locus.
+- Both up and down regions are localized near the single gene locus.
+- Single region is localized near the multiple gene loci
 
 To combine epigenome information with gene expression data, it is first necessary to integrate multiple epigenetic information for each gene into a single score. This process is required for establishing the one-to-one relationship between epigenome information and gene expression for each gene.
 In EpigenomeChef, the principle of **Regulatory Potential (RP)** is accepted to integrate multiple epigenetic information for each gene.<br>
 RP score is calculated so that the closer the peak is to the TSS, the higher the score, and the farther from the TSS, the lower the score.<br>
-The maximum distance from TSS that affect the RP score can be changed with **Regulatory range (distance (kb) from TSS)** (default: 100 kb).
-The cutoff condition of DEGs from RNA-seq can be changed with **Fold change cutoff for RNA-seq data** and **FDR cutoff for RNA-seq data** (default: fold change = 1.5, fdr = 0.05).
+In the case of 'Pair-wise' section, the improved RP for pair-wise analysis is introduced.<br>
+The first improvement involves using the fold change information from the analysis of differential peak regions, allowing for the weighting of significantly altered peaks, even if they are located far from the TSS.<br>
+The second improvement pertains to the definition of RP for negative values, enabling evaluation of both 'Up peaks' and 'Down peaks'.<br>
+The maximum distance from TSS that affect the RP score can be changed with **Regulatory range (distance (kb) from TSS)** (default: 100 kb).<br>
+The cutoff condition of DEGs from RNA-seq can be changed with **Fold change cutoff for RNA-seq data** and **FDR cutoff for RNA-seq data** (default: fold change = 1.5, fdr = 0.05).<br>
+
+![](manual_figure/regulatory_potential.png){#id .class width=90%}<br><br>
+
+#### Mode
+There are two modes for RP calculation.<br>
+**Nearest**: Each peak is linked to a single nearest gene.<br>
+**Gene scan**: Each peak is linked to multiple genes within the indicated distance.<br><br>
+![](manual_figure/pair-wise withRNAseq_mode.png){#id .class width=100%}<br><br>
 
 #### Boxplot
-Genes are classified with RP score (RP > 1, RP < -1, and others), and then the boxplot that shows log2FoldChange of genes in each group is displayed.<br>
-Multiple-comparison test is performed by Tukey-HSD.* p<0.05, ** p<0.01, *** p<0.001<br>
+Genes are categorized based on the RP score (RP < -1, -1 < RP < -0.1, -0.1 < RP < -0.01, -0.01 < RP < 0, others, 0 < RP < 0.01, 0.01 < RP < 0.1, 0.1 < RP < 1, and RP > 1). A boxplot displaying the log10FoldChange of genes in each group is presented.<br>
+You can obtain the figure (.pdf), the result of statistics (.txt), and the gene and bed list categorized by RP scores (.txt and .bed) by clicking the 'Download boxplot (.pdf, .txt, and .bed)' button.
+A multiple-comparison test is conducted using Tukey-HSD. * p < 0.05, ** p < 0.01, *** p < 0.001<br>
 This plot overviews the contribution of epigenetic alteration to gene expression change.<br>
-![](manual_figure/pair-wise boxplot.png){#id .class width=90%}<br><br>
-
-#### Barplot
-The following barplots are displayed:
-
-- above: the classification of DEG based on RP score (up: RP > 0, NS: RP = 0, and down: RP < 0)
-- below: the classification of RP > 0 (up) and RP < 0 (down) genes based on their expression levels (up DEG, down DEG, and NS)
+![](manual_figure/pair-wise boxplot1.png){#id .class width=100%}<br><br>
 
 #### KS plot
 
 This function arranges the genes in descending order of RP score and then compares the distribution of the three groups (up DEG, down DEG, and NS).<br>
 The statistic test is performed by Kolmogorov-Smirnov tests.<br>
 This plot overviews the correlation between gene expression and RP score (epigenome alteration of interest).<br><br>
-![](manual_figure/pair-wise barplot.png){#id .class width=90%}<br><br>
+![](manual_figure/pair-wise ks1.png){#id .class width=100%}<br><br>
+
+#### Barplot
+The following barplots are displayed:
+
+- above: the histogram showing the count of associated peaks for each category gene (up DEG, down DEG, and NS).
+- below: the histogram showing the count of associated genes for each category peak (up peak and down peak).
+
+**Note**: In 'Nearest mode', each category peak must be associated with only one gene (below histograms).
+![](manual_figure/pair-wise barplot.png){#id .class width=100%}<br><br>
 
 #### Result table panel
 The result table that links epigenome analysis to transcriptome is displayed.<br>
-e.g. "up-up (both upregulated genes with RNA and epigenome)" and "down-down (both downregulated genes with RNA and epigenome)". You can select it from **Group(RNA-Epigenome)**.<br>
-The bed files that contain the DAR of each group can be downloaded.<br>
-The downloaded bed files can be used as input files for the sections of **Venn diagram**,**Clustering**, and **Enrichment viewer**.<br>
-If you click a gene of interest in the result table, the trackplot that shows the selected DAR and its nearest gene is displayed in the **Trackplot panel**.<br><br>
+e.g. "up-up (both upregulated genes with RNA and epigenome)" and "down-down (both downregulated genes with RNA and epigenome)". You can select it from **Group(Epigenome:RNA)**.<br>
+The bed files that contain the genomic regions of each group can be downloaded.<br>
+The downloaded bed files can be used as input files for the sections of **Venn diagram**,**Clustering**, and **Peaks of interest**.<br>
+If you click a gene of interest in the result table, the trackplot that shows the selected regions and its nearest gene is displayed in the **Trackplot panel**.<br><br>
 ![](manual_figure/pair-wise rnaseqtrackplot.png){#id .class width=90%}<br><br>
 
 #### Functional enrichment analysis panel
-If you can select groups of interest in the **Groups (RNAseq-Epigenome)**, functional enrichment analysis is performed.<br>
-In this analysis, the enrichment analysis for the RNA-seq analysis is performed (NOT GREAT).<br>
+In this analysis, enrichment analysis for the gene list (similar to RNA-seq analysis) is conducted (NOT GREAT).<br><br>
+**Category**: You can select groups of interest from **RP status (from boxplot)** or **Relationship (Epigenome:RNAseq)**.<br>
+**Gene set**: You can select gene sets for enrichment analysis.<br>
+
 The analysis depends on [ClusterProfiler](https://yulab-smu.top/biomedical-knowledge-mining-book/enrichplot.html).<br><br>
 ![](manual_figure/pair-wise rnaseqenrich.png){#id .class width=90%}<br><br>
 
 ---
 
-### Combined Heatmap
-
-This function simultaneously visualizes count data and log2FoldChange values from RNA-seq, as well as the peak patterns of ChIP-seq and ATAC-seq, in a heatmap for Up and Down peaks obtained from Pair-wise DAR.<br>
-Press the START button to initiate the analysis.<br><br>
-![](manual_figure/pair-wise comb.png){#id .class width=90%}<br><br>
-
-
----
 
 # Venn diagram
 
@@ -410,7 +466,7 @@ Please note that drag-and-drop functionality is not available. To reorder the fi
 #### Species
 The following analysis is performed by selecting the dataset species (reference).
 
-- trackplot、peak distribution、GREAT, HOMER, with RNAseq
+- trackplot, annotation, GREAT, HOMER, with RNAseq
 <br>  
 
 ---
@@ -423,13 +479,37 @@ The overlap of the uploaded bed files is detected and visualized.
 <br><br>
 ![venn input](manual_figure/venn venn.png){#id .class width=90%}<br><br>
 
-#### Lineplot of intersections (comparison between intersections)
-This plot displays the average values of intersections obtained for each uploaded BigWig file. It allows you to compare peak heights within the intersection regions of a single BigWig file.
+#### Intersection table
+The table data of the selected intersection is displayed.<br>
+You can download bed files of all intersections.
 
-#### Lineplot of intersections (comparison between bigwig)
-This plot enables you to compare the peak heights within the intersection regions for all the uploaded BigWig files.<br><br>
+----
 
-![venn input](manual_figure/venn lineplot.png){#id .class width=90%}<br><br>
+#### Annotation
+
+In the case that **Species** is selected, peak distribution is displayed.<br>
+The annotation of the selected intersection is displayed.<br>
+The following three levels of the pie chart are displayed.
+
+- **Gene Level**<br>
+Promoter, Downstream, Gene body, Distal intergenic<br>
+
+- **Exon/Intron/Intergenic**<br>
+Exon, Intron, Intergenic<br>
+
+- **Exon Level**<br>
+5' UTR, 3' UTR, CDS, Other exon<br><br>
+
+#### selected intersect data panel
+The table data that contains annotation of the selected intersection is displayed.<br>
+The text file that contains the annotation such as the nearest genes can be downloaded.<br>
+
+#### Trackplot panel
+If you click the genomic locus of interest in the **selected intersect panel**, the trackplot that shows the selected locus and its nearest gene is displayed.<br>
+The red highlight in the trackplot shows the selected genomic locus.<br>
+The peak height in the trackplot can be changed with **peak range**.<br>
+If you want to display additional data, you can upload additional bigwig files from **select additional bigwig files**.<br><br>
+![venn input](manual_figure/venn_annotation.png){#id .class width=90%}<br><br>
 
 ---
 
@@ -446,35 +526,15 @@ A-B: Genomic loci of the overlap between A and B. <br>
 
 In the case that bigwig files are uploaded, peak heatmap and line plot are displayed.<br>
 If you want to display additional data, you can upload bigwig files from **select additional bigwig files**.<br>
-
-#### Peak distribution
-
-In the case that **Species** is selected, peak distribution is displayed.<br>
-The annotation of the selected intersection is displayed.<br>
-The following three levels of the pie chart are displayed.
-
-- **Gene Level**<br>
-Promoter, Downstream, Gene body, Distal intergenic<br>
-
-- **Exon/Intron/Intergenic**<br>
-Exon, Intron, Intergenic<br>
-
-- **Exon Level**<br>
-5' UTR, 3' UTR, CDS, Other exon<br><br>
 ![venn input](manual_figure/venn pattern.png){#id .class width=90%}<br><br>
 
-#### Trackplot panel
-If you click the genomic locus of interest in the **selected intersect panel**, the trackplot that shows the selected locus and its nearest gene is displayed.<br>
-The red highlight in the trackplot shows the selected genomic locus.<br>
-The peak height in the trackplot can be changed with **peak range**.<br>
-If you want to display additional data, you can upload additional bigwig files from **select additional bigwig files**.<br><br>
-![venn input](manual_figure/venn trackplot.png){#id .class width=90%}<br><br>
+#### Lineplot of intersections (comparison between intersections)
+This plot displays the average values of intersections obtained for each uploaded BigWig file. It allows you to compare peak heights within the intersection regions of a single BigWig file.
 
-#### selected intersect data panel
-The table data that contains annotation of the selected intersection is displayed.<br>
-The text file that contains the annotation such as the nearest genes can be downloaded.<br>
-The bed file can be also downloaded.<br>
-The downloaded bed files can be used as input files for using them in the section of **Clustering**、**Enrichment viewer**.<br>
+#### Lineplot of intersections (comparison between bigwig)
+This plot enables you to compare the peak heights within the intersection regions for all the uploaded BigWig files.<br><br>
+
+![venn input](manual_figure/venn lineplot.png){#id .class width=90%}<br><br>
 
 ---
 
@@ -505,6 +565,11 @@ This analysis depends on [rGREAT](https://bioconductor.org/packages/release/bioc
 
 HOMER (Hypergeometric Optimization of Motif EnRichment)-based motif analysis identifies the DNA-binding motif of the selected intersection in the venn diagram that can be selected from **Select intersect**.<br>
 
+#### Install HOMER reference
+HOMER reference of the species (select from the setting panel) can be installed.
+If the HOMER reference for your dataset species has not been installed in the container yet,
+you need to press the 'Install HOMER reference' button.
+
 #### Type of enrichment analysis
 "known motif": turns off searching for de novo motifs for saving time.<br>
 "known + unknown motif": searching for both known and de novo motifs <br>
@@ -525,30 +590,74 @@ The folder that contains HOMER results can be downloaded.<br><br>
 
 ---
 
-### with RNAseq
-The integrative analysis of the selected intersection with transcriptome is performed by uploading the DEG result file from RNA-seq analysis.<br>
-The format of the DEG result file is the following:
+### Combined Heatmap
 
-- File extension: Tab-separated txt (.txt), comma-separated csv (.csv), or Excel (.xlsx) files can be accepted.
-- The first column must be a gene symbol or ENSEMBL ID
-- The file must contain the following columns: "log2FoldChange" and "padj"
+This function simultaneously visualizes count data and log2FoldChange values from RNA-seq, as well as the peak patterns of ChIP-seq and ATAC-seq, in a heatmap for Up and Down peaks obtained from "Pair-wise" section.<br>
+Please make sure to select the genomic regions of interest from **Select intersection** to create the heatmap.<br>
+Press the START button to initiate the analysis.<br><br>
+
+---
+
+### with RNAseq
+The integrative analysis with transcriptome is performed by uploading the DEG result file from RNA-seq analysis.<br>
+Three types of RNA-seq data can be used as inputs.<br>
+
+#### Raw_count (2 conditions)
+The analysis can be performed with raw count data if the following conditions are fulfilled:
+
+    - A file consists of only two groups of data to be analyzed.
+    - The replication number is represented by the underline “_”.
+    - Do not use the underline "_" for anything else. 
+    
+DEG analysis is performed using [DESeq2](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-014-0550-8).<br>
+
+![unchanged image](manual_figure/input_format1.png){.class width="50%"}<br>
+
+#### DEG_Result from pair-wise analysis
+The analysis can only be performed with the DEG result file if the following conditions are fulfilled:
+
+    - File extension: Tab-separated txt (.txt), comma-separated csv (.csv), or Excel (.xlsx) files can be accepted.
+    - The first column must be a gene symbol or ENSEMBL ID
+    - The file must contain the following columns: "log2FoldChange" and "padj"
 
 If the file fulfills the above rules, you can use not only the result file from bulk RNA-seq but also from scRNA-seq. <br><br>
+**Name of condition 1/2**: you can change the condition names.<br>
+**Note**: Log2FoldChange is calculated as Log2(A/B) in the "A vs B" scenario, so "Up" corresponds to negative values. If you are using a DEG result file obtained from a source other than RNAseqChef, please pay attention to the interpretation of positive and negative values.<br>
 ![](manual_figure/pair-wise DEG.png){#id .class width=90%}<br><br>
+
+#### Gene_list
+In this mode, the format requirements depend on the number of files to be uploaded.
+**Single file upload**:<br>
+The first column is gene name.<br>
+The second and subsequent columns do not affect the analysis.<br> 
+**Multiple files upload**: <br>
+The first column is gene name<br>
+The second and subsequent columns do not affect the analysis.<br> 
+File names are used as group names.<br><br>
+Example: single file upload
+![](manual_figure/input_format_enrich.png){#id .class width=50%}<br><br>
+
 
 #### Regulatory Potential (RP)-based integrative analysis
 In the epigenome analysis, there is the case that multiple peaks are associated with a single gene.<br>
-To combine epigenome information with gene expression data, it is first necessary to integrate multiple epigenetic information for each gene into a single score. This process is required for establishing the one-to-one relationship between epigenome information and gene expression for each gene.
+To combine epigenome information with gene expression data, it is first necessary to integrate multiple epigenetic information for each gene into a single score. This process is required for establishing the one-to-one relationship between epigenome information and gene expression for each gene.<br>
 In EpigenomeChef, the principle of **Regulatory Potential (RP)** is accepted to integrate multiple epigenetic information for each gene.<br>
 RP score is calculated so that the closer the peak is to the TSS, the higher the score, and the farther from the TSS, the lower the score.<br>
-The maximum distance from TSS that affect the RP score can be changed with **Regulatory range (distance (kb) from TSS)** (default: 100 kb).
-The cutoff condition of DEGs from RNA-seq can be changed with **Fold change cutoff for RNA-seq data** and **FDR cutoff for RNA-seq data** (default: fold change = 1.5, fdr = 0.05).
+The maximum distance from TSS that affect the RP score can be changed with **Regulatory range (distance (kb) from TSS)** (default: 100 kb).<br>
+The cutoff condition of DEGs from RNA-seq can be changed with **Fold change cutoff for RNA-seq data** and **FDR cutoff for RNA-seq data** (default: fold change = 1.5, fdr = 0.05).<br>
+![](manual_figure/traditional_RP.png){#id .class width=90%}<br><br>
 
+#### Mode
+There are two modes for RP calculation.<br>
+**Nearest**: Each peak is linked to a single nearest gene.<br>
+**Gene scan**: Each peak is linked to multiple genes within the indicated distance.<br><br>
+![](manual_figure/pair-wise withRNAseq_mode.png){#id .class width=100%}<br><br>
 
 #### Boxplot
-Genes are classified with RP score (RP > 1 and others), and then the boxplot that shows log2FoldChange of genes in each group is displayed.<br>
-Pair-wise comparison is performed by Welch's t-test. * p<0.05, ** p<0.01, *** p<0.001<br>
-This boxplot shows the contribution of the selected intersection to gene expression.<br><br>
+Genes are categorized based on the RP score (Others, 0 < RP < 0.01, 0.01 < RP < 0.1, 0.1 < RP < 1, 1 < RP < 2, and 2 > RP ). A boxplot displaying the log10FoldChange of genes in each group is presented.<br>
+You can obtain the figure (.pdf), the result of statistics (.txt), and the gene and bed list categorized by RP scores (.txt and .bed) by clicking the 'Download boxplot (.pdf, .txt, and .bed)' button.
+A multiple-comparison test is conducted using Tukey-HSD. * p < 0.05, ** p < 0.01, *** p < 0.001<br>
+This plot overviews the contribution of epigenetic alteration to gene expression change.<br>
 ![](manual_figure/venn boxplot.png){#id .class width=90%}<br><br>
 
 #### Barplot
@@ -556,34 +665,28 @@ The following barplots are displayed.
 
 - above: the classification of DEGs based on RP scores (up: RP >0 and NS: others)<br>
 - below: the classification of RP > 0 genes based on their expression levels (up DEG, down DEG, and NS)<br>
-
+![](manual_figure/venn barplot.png){#id .class width=90%}<br><br>
 
 #### KS plot
 This function arranges the genes in descending order of RP score and then compares the distribution of the three groups (up DEG, down DEG, and NS).<br>
 The statistic test is performed by Kolmogorov-Smirnov tests.<br>
 This plot overviews the correlation between gene expression and RP score (epigenome alteration of interest).<br><br>
-![](manual_figure/venn barplot.png){#id .class width=90%}<br><br>
+![](manual_figure/venn ks.png){#id .class width=90%}<br><br>
 
 #### Result table panel
 The result table that links epigenome to transcriptome is displayed.<br>
-e.g. "both upregulated genes with RNA and epigenome" and "both downregulated genes with RNA and epigenome". The table data selected from **Group(RNA-Epigenome)** is displayed.<br>
-The bed file can be downloaded for using it in the section of **Clustering** and **enrichment viewer**<br>
+e.g. "both upregulated genes with RNA and epigenome" and "both downregulated genes with RNA and epigenome". The table data selected from **Group(Epigenome:RNA)** is displayed.<br>
+The bed file can be downloaded for using it in the section of **Clustering** and **Peaks of interest**<br>
 If you click a gene of interest in the result table panel, the trackplot that shows the selected genes and genomic loci are displayed in the **trackplot panel**.<br> <br>
 ![](manual_figure/venn rnaseqtrackplot.png){#id .class width=90%}<br><br>
 
 #### Functional enrichment analysis panel
-If you can select groups of interest in the **Groups (RNAseq-Epigenome)**, functional enrichment analysis is performed.<br>
-In this analysis, the enrichment analysis for the RNA-seq analysis is performed (NOT GREAT).<br>
-The analysis depends on [ClusterProfiler](https://yulab-smu.top/biomedical-knowledge-mining-book/enrichplot.html).。<br><br>
-![](manual_figure/venn rnaseqenrich.png){#id .class width=90%}<br><br>
+In this analysis, enrichment analysis for the gene list (similar to RNA-seq analysis) is conducted (NOT GREAT).<br><br>
+**Category**: You can select groups of interest from **RP status (from boxplot)** or **Relationship (Epigenome:RNAseq)**.<br>
+**Gene set**: You can select gene sets for enrichment analysis.<br>
 
----
-
-### Combined Heatmap
-
-This function simultaneously visualizes count data and log2FoldChange values from RNA-seq, as well as the peak patterns of ChIP-seq and ATAC-seq, in a heatmap for Up and Down peaks obtained from Pair-wise DAR.<br>
-Please make sure to select the genomic regions of interest from **Select intersection** to create the heatmap.<br>
-Press the START button to initiate the analysis.<br><br>
+The analysis depends on [ClusterProfiler](https://yulab-smu.top/biomedical-knowledge-mining-book/enrichplot.html).<br><br>
+![](manual_figure/pair-wise rnaseqenrich.png){#id .class width=90%}<br><br>
 
 ---
 
@@ -592,7 +695,7 @@ Press the START button to initiate the analysis.<br><br>
 Clustering performs the clustering analysis of uploaded bigwig files.<br>
 There are two purposes for this section.
 
-- An overview of the uploaded data using PCA, MDS, dendrogram, and correlation plot that evaluates their similarity.
+- PCA, MDS, dendrogram, and correlation plot that evaluates their similarity.
 - k-means clustering for dissecting genomic loci of interest in detail.
 
 ## Setting
@@ -612,8 +715,8 @@ There is an important parameter as below.<br>
 - **Genome-wide**<br>
 Bed files are required.<br>
 In the case that the purpose is an overview of data, the peak call files corresponding to all uploaded bigwig files are required.
-(Note: there is no filtering function like Pair-wise DAR. All genomic loci in uploaded bed files are analyzed.)<br>
-In the case that the purpose is a k-means clustering analysis, the bed file that is obtained from the sections of Pair-wise DAR and Venn diagram can be used.
+(Note: there is no filtering function like "Pair-wise" section. All genomic loci in uploaded bed files are analyzed.)<br>
+In the case that the purpose is a k-means clustering analysis, the bed file that is obtained from the sections of "Pair-wise" and "Venn diagram" can be used.
 The only genomic loci in the bed file are analyzed.<br>
 (Note: The maximum number of genomic loci that can be analyzed is 10,000. )
 
@@ -642,7 +745,7 @@ Please follow the rules described in "Common rules and important notice for outp
 #### Species
 The following analysis is performed by selecting the dataset species (reference).
 
-- trackplot、peak distribution、GREAT, HOMER, with RNAseq
+- trackplot, annotation, GREAT, HOMER, with RNAseq
 <br>  
 
 
@@ -678,17 +781,23 @@ Pearson's correlation is calculated and the correlation plot is displayed.<br><b
 ### k-means clustering
 
 k-means clustering is performed.<br>
-The number of genomic regions to be analyzed is limited to a maximum of 10,000 regions (default is 2,000 loci) due to memory constraints. You can adjust this limit using the **Most variable loci**.。<br>
 
-- **Select a pair for fold change cut-off**<br>
-Choose the two groups for which you want to apply the Fold Change cut-off.<br> 
-The number of genomic regions after the cut-off is displayed in red. Please use this number as a reference to set the **Most variable loci**.<br>
+#### Filter 1 (FDR cut-off)
+Statistical analysis (Limma-trend) will be conducted if there is a sample number (n) of at least 1 for at least one condition.<br>
+If the uploaded data lacks replicates, this analysis will be skipped.<br><br>
+![](manual_figure/clustering statistical.png){#id .class width=90%}<br><br>
+
+#### Filter 2 (Fold change cut-off)
+Choose the two groups from **Select a pair for fold change cut-off** for which you want to apply the Fold Change cut-off.<br> 
+
 - **k-means number**<br>
 Set the number of clusters.<br>
 - **Order of clusters on heatmap**<br>
 You can change the order of clusters on the heatmap. <br>
 
-![](manual_figure/clustering kmeans.png){#id .class width=90%}<br><br>
+**You can get bed files of all clusters from 'Download bed files of all clusters'.**
+
+![](manual_figure/cluster_filter_kmeans.png){#id .class width=90%}<br><br>
 
 You can analyze the clusters of interest by selecting them from **cluster_list**.<br>
 In the case of selecting multiple clusters, it analyzes all clusters as the same cluster (not analyze each cluster indivisually).<br>
@@ -700,70 +809,18 @@ If you want to display additional data, you can upload bigwig files from **selec
 ![](manual_figure/clustering pattern.png){#id .class width=90%}<br><br>
 
 #### Trackplot panel
-If you click the genomic locus of interest in the **selected cluster panel**, the trackplot that shows the selected locus and its nearest gene is displayed.<br>
+If you click the genomic locus of interest in the **Custom cluster panel**, the trackplot that shows the selected locus and its nearest gene is displayed.<br>
 The red highlight in the trackplot shows the selected genomic locus.<br>
 The peak height in the trackplot can be changed with **peak range**.<br>
 If you want to display additional data, you can upload additional bigwig files from **select additional bigwig files**.<br><br>
 ![venn input](manual_figure/clustering trackplot.png){#id .class width=90%}<br><br>
 
----
-
-### with RNAseq
-The integrative analysis of the selected cluster with transcriptome is performed by uploading the DEG result file from RNA-seq analysis.<br>
-The format of the DEG result file is the following:
-
-- File extension: Tab-separated txt (.txt), comma-separated csv (.csv), or Excel (.xlsx) files can be accepted.
-- The first column must be a gene symbol or ENSEMBL ID
-- The file must contain the following columns: "log2FoldChange" and "padj"
-
-If the file fulfills the above rules, you can use not only the result file from bulk RNA-seq but also from scRNA-seq. <br><br>
-![](manual_figure/pair-wise DEG.png){#id .class width=90%}<br><br>
-
-#### Regulatory Potential (RP)-based integrative analysis
-In the epigenome analysis, there is the case that multiple peaks are associated with a single gene.<br>
-To combine epigenome information with gene expression data, it is first necessary to integrate multiple epigenetic information for each gene into a single score. This process is required for establishing the one-to-one relationship between epigenome information and gene expression for each gene.
-In EpigenomeChef, the principle of **Regulatory Potential (RP)** is accepted to integrate multiple epigenetic information for each gene.<br>
-RP score is calculated so that the closer the peak is to the TSS, the higher the score, and the farther from the TSS, the lower the score.<br>
-The maximum distance from TSS that affect the RP score can be changed with **Regulatory range (distance (kb) from TSS)** (default: 100 kb).
-The cutoff condition of DEGs from RNA-seq can be changed with **Fold change cutoff for RNA-seq data** and **FDR cutoff for RNA-seq data** (default: fold change = 1.5, fdr = 0.05).
-
-#### Boxplot
-Genes are classified with RP score (RP > 1 and others), and then the boxplot that shows log2FoldChange of genes in each group is displayed.<br>
-Pair-wise comparison is performed by Welch's t-test. * p<0.05, ** p<0.01, *** p<0.001<br>
-This boxplot shows the contribution of the selected cluster to gene expression.<br><br>
-![](manual_figure/clustering boxplot.png){#id .class width=90%}<br><br>
-
-#### Barplot
-Genes are classified with RP score (RP > 1 and others), and then the boxplot that shows log2FoldChange of genes in each group is displayed.<br>
-Pair-wise comparison is performed by Welch's t-test. * p<0.05, ** p<0.01, *** p<0.001<br>
-This boxplot shows the contribution of the selected cluster to gene expression.<br><br>
-
-
-#### KS plot
-This function arranges the genes in descending order of RP score and then compares the distribution of the three groups (up DEG, down DEG, and NS).<br>
-The statistic test is performed by Kolmogorov-Smirnov tests.<br>
-This plot overviews the correlation between gene expression and RP score (epigenome alteration of interest).<br><br>
-![](manual_figure/clustering barplot.png){#id .class width=90%}<br><br>
-
-#### Result table panel
-The result table that links epigenome to transcriptome is displayed.<br>
-e.g. "both upregulated genes with RNA and epigenome" and "both downregulated genes with RNA and epigenome". The table data selected from **Group(RNA-Epigenome)** is displayed.<br>
-The bed file can be downloaded for using it in the section of **Venn diagram** and **enrichment viewer**.<br>
-If you click a gene of interest in the result table panel, the trackplot that shows the selected genes and genomic loci is displayed in the **trackplot panel**.<br> <br>
-![](manual_figure/clustering rnaseqtrackplot.png){#id .class width=90%}<br><br>
-
-#### Functional enrichment analysis panel
-If you can select groups of interest in the **Groups (RNAseq-Epigenome)**, functional enrichment analysis is performed.<br>
-In this analysis, the enrichment analysis for the RNA-seq analysis is performed (NOT GREAT).<br>
-The analysis depends on [ClusterProfiler](https://yulab-smu.top/biomedical-knowledge-mining-book/enrichplot.html).。<br><br>
-![](manual_figure/clustering rnaseqenrich.png){#id .class width=90%}<br><br>
-
 
 ---
 
-# Enrichment viewer
+# Peaks of interest
 
-Enrichment viewer performs the functional and motif enrichment analysis by uploading bed files.<br>
+Peaks of interest performs the functional and motif enrichment analysis by uploading bed files.<br>
 By using bed files from the Venn diagram and k-means clustering analysis, it detects and compares the functions and motifs of the identified intersection and clusters.
 <br><br>
 
@@ -827,6 +884,11 @@ The analysis depends on [rGREAT](https://bioconductor.org/packages/release/bioc/
 
 HOMER (Hypergeometric Optimization of Motif EnRichment)-based motif analysis identifies DNA-binding motif enriched in each uploaded bed file.<br>
 
+#### Install HOMER reference
+HOMER reference of the species (select from the setting panel) can be installed.
+If the HOMER reference for your dataset species has not been installed in the container yet,
+you need to press the 'Install HOMER reference' button.
+
 #### Type of enrichment analysis
 "known motif": turns off searching for de novo motifs for saving time.<br>
 "known + unknown motif": searching for both known and de novo motifs <br>
@@ -849,11 +911,96 @@ The folder that contains HOMER results can be downloaded.<br><br>
 
 ### Combined Heatmap
 
-This function simultaneously visualizes count data and log2FoldChange values from RNA-seq, as well as the peak patterns of ChIP-seq and ATAC-seq, in a heatmap for Up and Down peaks obtained from Pair-wise DAR.<br>
+This function simultaneously visualizes count data and log2FoldChange values from RNA-seq, as well as the peak patterns of ChIP-seq and ATAC-seq, in a heatmap for Up and Down peaks obtained from "Pair-wise" section.<br>
 You must upload at least one BigWig file into **Select bigwig files (red)**.<br>
 Press the START button to initiate the analysis.<br><br>
 
 ![](manual_figure/enrich combined.png){#id .class width=90%}<br><br>
+
+---
+
+### with RNAseq
+The integrative analysis of the uploaded peak regions with transcriptome is performed by uploading the DEG result file from RNA-seq analysis.<br>
+
+#### Raw_count (2 conditions)
+The analysis can be performed with raw count data if the following conditions are fulfilled:
+
+    - A file consists of only two groups of data to be analyzed.
+    - The replication number is represented by the underline “_”.
+    - Do not use the underline "_" for anything else. 
+    
+DEG analysis is performed using [DESeq2](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-014-0550-8).<br>
+
+![unchanged image](manual_figure/input_format1.png){.class width="50%"}<br>
+
+#### DEG_Result from pair-wise analysis
+The analysis can only be performed with the DEG result file if the following conditions are fulfilled:
+
+    - File extension: Tab-separated txt (.txt), comma-separated csv (.csv), or Excel (.xlsx) files can be accepted.
+    - The first column must be a gene symbol or ENSEMBL ID
+    - The file must contain the following columns: "log2FoldChange" and "padj"
+
+If the file fulfills the above rules, you can use not only the result file from bulk RNA-seq but also from scRNA-seq. <br><br>
+**Name of condition 1/2**: you can change the condition names.<br>
+**Note**: Log2FoldChange is calculated as Log2(A/B) in the "A vs B" scenario, so "Up" corresponds to negative values. If you are using a DEG result file obtained from a source other than RNAseqChef, please pay attention to the interpretation of positive and negative values.<br>
+![](manual_figure/pair-wise DEG.png){#id .class width=90%}<br><br>
+
+#### Gene_list
+In this mode, the format requirements depend on the number of files to be uploaded.
+**Single file upload**:<br>
+The first column is gene name.<br>
+The second and subsequent columns do not affect the analysis.<br> 
+**Multiple files upload**: <br>
+The first column is gene name<br>
+The second and subsequent columns do not affect the analysis.<br> 
+File names are used as group names.<br><br>
+Example: single file upload
+![](manual_figure/input_format_enrich.png){#id .class width=50%}<br><br>
+
+#### Regulatory Potential (RP)-based integrative analysis
+In the epigenome analysis, there is the case that multiple peaks are associated with a single gene.<br>
+To combine epigenome information with gene expression data, it is first necessary to integrate multiple epigenetic information for each gene into a single score. This process is required for establishing the one-to-one relationship between epigenome information and gene expression for each gene.
+In EpigenomeChef, the principle of **Regulatory Potential (RP)** is accepted to integrate multiple epigenetic information for each gene.<br>
+RP score is calculated so that the closer the peak is to the TSS, the higher the score, and the farther from the TSS, the lower the score.<br>
+The maximum distance from TSS that affect the RP score can be changed with **Regulatory range (distance (kb) from TSS)** (default: 100 kb).
+The cutoff condition of DEGs from RNA-seq can be changed with **Fold change cutoff for RNA-seq data** and **FDR cutoff for RNA-seq data** (default: fold change = 1.5, fdr = 0.05).
+![](manual_figure/traditional_RP.png){#id .class width=90%}<br><br>
+
+#### Boxplot
+Genes are categorized based on the RP score (Others, 0 < RP < 0.01, 0.01 < RP < 0.1, 0.1 < RP < 1, 1 < RP < 2, and 2 > RP ). A boxplot displaying the log10FoldChange of genes in each group is presented.<br>
+You can obtain the figure (.pdf), the result of statistics (.txt), and the gene and bed list categorized by RP scores (.txt and .bed) by clicking the 'Download boxplot (.pdf, .txt, and .bed)' button.
+A multiple-comparison test is conducted using Tukey-HSD. * p < 0.05, ** p < 0.01, *** p < 0.001<br>
+This plot overviews the contribution of epigenetic alteration to gene expression change.<br>
+![](manual_figure/clustering boxplot.png){#id .class width=90%}<br><br>
+
+#### Barplot
+Genes are classified with RP score (RP > 1 and others), and then the boxplot that shows log2FoldChange of genes in each group is displayed.<br>
+Pair-wise comparison is performed by Welch's t-test. * p<0.05, ** p<0.01, *** p<0.001<br>
+This boxplot shows the contribution of the selected cluster to gene expression.<br><br>
+![](manual_figure/clustering barplot.png){#id .class width=90%}<br><br>
+
+
+#### KS plot
+This function arranges the genes in descending order of RP score and then compares the distribution of the three groups (up DEG, down DEG, and NS).<br>
+The statistic test is performed by Kolmogorov-Smirnov tests.<br>
+This plot overviews the correlation between gene expression and RP score (epigenome alteration of interest).<br><br>
+![](manual_figure/clustering ks.png){#id .class width=90%}<br><br>
+
+#### Result table panel
+The result table that links epigenome to transcriptome is displayed.<br>
+e.g. "both upregulated genes with RNA and epigenome" and "both downregulated genes with RNA and epigenome". The table data selected from **Group(Epigenome:RNA)** is displayed.<br>
+The bed file can be downloaded for using it in the section of **Venn diagram** and **Peaks of interest**.<br>
+If you click a gene of interest in the result table panel, the trackplot that shows the selected genes and genomic loci is displayed in the **trackplot panel**.<br> <br>
+![](manual_figure/clustering rnaseqtrackplot.png){#id .class width=90%}<br><br>
+
+#### Functional enrichment analysis panel
+In this analysis, enrichment analysis for the gene list (similar to RNA-seq analysis) is conducted (NOT GREAT).<br><br>
+**Category**: You can select groups of interest from **RP status (from boxplot)** or **Relationship (Epigenome:RNAseq)**.<br>
+**Gene set**: You can select gene sets for enrichment analysis.<br>
+
+The analysis depends on [ClusterProfiler](https://yulab-smu.top/biomedical-knowledge-mining-book/enrichplot.html).<br><br>
+![](manual_figure/pair-wise rnaseqenrich.png){#id .class width=90%}<br><br>
+
 
 ---
 
@@ -887,7 +1034,7 @@ Subtract removes each overlapping interval in B from A.<br><br>
 
 ## Note of data from ChIP-atlas：ChIP-seq analysis of histone modification
 
-e.g.: Pair-wise DAR, input: samples from ATAC-seq
+e.g.: "Pair-wise" section, input: samples from ATAC-seq
 ![venn input](manual_figure/chipatlas_1.png){#id .class width=100%}<br><br>
 
 ## HOMER: Importance of "Background sequence"
@@ -988,8 +1135,9 @@ FindIT2 (for with RNAseq)
 - Shang, G.-D., Xu, Z.-G., Wan, M.-C., Wang, F.-X. & Wang, J.-W.  FindIT2: an R/Bioconductor package to identify influential transcription factor and
   targets based on multi-omics data.  BMC Genomics 23, 272 (2022)
 
-marge, ggseqlogo (for motif analysis)
+HOMER, marge, ggseqlogo (for motif analysis)
 
+- Heinz S, Benner C, Spann N, Bertolino E et al. Simple Combinations of Lineage-Determining Transcription Factors Prime cis-Regulatory Elements Required for Macrophage and B Cell Identities. Mol Cell 2010 May 28;38(4):576-589. PMID: 20513432
 - Amezquita R (2022). _marge: API for HOMER in R for Genomic Analysis using Tidy Conventions_. R package version 0.0.4.9999.
 - Wagih O (2017). _ggseqlogo: A 'ggplot2' Extension for Drawing Publication-Ready Sequence Logos_. R package version 0.1,
   <https://CRAN.R-project.org/package=ggseqlogo>.
