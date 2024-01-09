@@ -237,7 +237,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">EpigenomeChef manual</h1>
-<h4 class="date">23/12/18 11:33</h4>
+<h4 class="date">24/01/09 15:26</h4>
 
 </div>
 
@@ -281,20 +281,20 @@ id="run-the-following-command-once-you-run-it-you-wont-need-it-again"
 class="section level3">
 <h3>1. Run the following command (Once you run it, you won’t need it
 again) <br></h3>
-<pre><code>docker pull omicschef/epigenomechef:v1.1.2
+<pre><code>docker pull omicschef/epigenomechef:v1.1.3
 </code></pre>
 </div>
 <div id="launch-epigenomechef-on-the-browser" class="section level3">
 <h3>2. Launch EpigenomeChef on the browser</h3>
 <div id="method-1-command-line" class="section level4">
 <h4>Method 1: command line</h4>
-<pre><code>docker run --rm -p 3838:3838 omicschef/epigenomechef:v1.1.2
+<pre><code>docker run --rm -p 3838:3838 omicschef/epigenomechef:v1.1.3
 
 ## Option: run using bind mount
 ## you can bind folder containing bigwig files to the container.
-## docker run --rm -p 3838:3838  -v ${path/to/directory}:/srv/shiny-server/EpigenomeChef/Volume omicschef/epigenomechef:v1.1.0
+## docker run --rm -p 3838:3838  -v ${path/to/directory}:/srv/shiny-server/EpigenomeChef/Volume omicschef/epigenomechef:v1.1.3
 ## e.g. When you want to select current directory, you can use the following command:
-docker run --rm -p 3838:3838  -v ${PWD}:/srv/shiny-server/EpigenomeChef/Volume omicschef/epigenomechef:v1.1.0</code></pre>
+docker run --rm -p 3838:3838  -v ${PWD}:/srv/shiny-server/EpigenomeChef/Volume omicschef/epigenomechef:v1.1.3</code></pre>
 <p><strong>Access <a
 href="http://localhost:3838">http://localhost:3838</a>.</strong><br><br></p>
 </div>
